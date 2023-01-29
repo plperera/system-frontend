@@ -26,7 +26,7 @@ export default function Login (){
                     placeholder="Senha"
                 />
 
-                <ButtonStyle onClick={() => navigate('/')}>Login</ButtonStyle>
+                <ButtonStyle onClick={() => navigate('/dashboard')}>Login</ButtonStyle>
 
             </ContainerInputs>
         </Container>

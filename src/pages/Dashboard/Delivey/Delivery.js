@@ -14,6 +14,6 @@ export default function Delivery() {
 }
 
 const Container = styled.div`
-    width: 100vw;
+    width: 80vw;
     height: 20vh;
 `;

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { TbTruckDelivery } from 'react-icons/tb';
@@ -7,27 +7,32 @@ import { BsCashCoin, BsArchive } from 'react-icons/bs';
 export default function NavigationBar() {
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  function isActive(buttonPath) {
+    return location.pathname === buttonPath;
+  }
 
   return (
     <Container>
         <UserInfo></UserInfo>
 
-        <ItemContainer onClick={() => navigate('/dashboard/pedido')}>
+        <ItemContainer active={isActive('/dashboard/pedido')} onClick={() => navigate('/dashboard/pedido')}>
             <span>Pedido</span>
             <div><AiOutlineShoppingCart /></div>
         </ItemContainer>
 
-        <ItemContainer onClick={() => navigate('/dashboard/estoque')}>
+        <ItemContainer active={isActive('/dashboard/estoque')} onClick={() => navigate('/dashboard/estoque')}>
             <span>Estoque</span>
             <div><BsArchive /></div>
         </ItemContainer>
 
-        <ItemContainer onClick={() => navigate('/dashboard/pagamento')}>
+        <ItemContainer active={isActive('/dashboard/pagamento')} onClick={() => navigate('/dashboard/pagamento')}>
             <span>Pagamento</span>
             <div><BsCashCoin /></div>
         </ItemContainer>
 
-        <ItemContainer onClick={() => navigate('/dashboard/entrega')}>
+        <ItemContainer active={isActive('/dashboard/entrega')} onClick={() => navigate('/dashboard/entrega')}>
             <span>Entrega</span>
             <div><TbTruckDelivery /></div>
         </ItemContainer>
@@ -61,10 +66,14 @@ const ItemContainer = styled.div`
     height: 8vh;
     width: 12vw;
 
-    color: #171717;
-
-    background-color:#c5c5c5;
+    color: ${props => props.active?('white'):('#171717')};
+    
+    background-color: ${props => props.active?('#124c64'):('#c5c5c5')};;
     border-radius:5px;
+
+    font-weight: ${props => props.active?('700'):('400')};
+
+    cursor: pointer;
 
     & > *:not(:first-child) {
         display: flex;

@@ -11,6 +11,7 @@ export default function Dashboard() {
         <Container>
 
             <NavigationBar/>
+            
             <PageContainer>
               <Outlet />
             </PageContainer>
