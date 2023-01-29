@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Teste from "./Teste";
+
 import Authentication from "./pages/Auth/Auth-Page";
+import Dashboard from "./pages/Dashboard/index";
 
 export default function App (){
  
@@ -8,7 +9,7 @@ export default function App (){
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Teste/>} />
+                    <Route path="/dashboard" element={<Dashboard/>} />
                     <Route path="/login" element={<Authentication/>} />
                 </Routes>
             </BrowserRouter>
