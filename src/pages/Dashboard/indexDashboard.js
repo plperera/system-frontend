@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
 
 import NavigationBar from '../../components/Dashboard/Dashboard';
 
@@ -10,7 +11,9 @@ export default function Dashboard() {
         <Container>
 
             <NavigationBar/>
-            <PageContainer></PageContainer>
+            <PageContainer>
+              <Outlet />
+            </PageContainer>
 
         </Container>
   );

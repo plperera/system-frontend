@@ -22,7 +22,7 @@ export default function NavigationBar() {
             <div><BsArchive /></div>
         </ItemContainer>
 
-        <ItemContainer onClick={() => navigate('/dashboard/pagamentos')}>
+        <ItemContainer onClick={() => navigate('/dashboard/pagamento')}>
             <span>Pagamento</span>
             <div><BsCashCoin /></div>
         </ItemContainer>
@@ -71,11 +71,11 @@ const ItemContainer = styled.div`
         align-items: center;
         justify-content: center;
 
-        font-size: 28px;   
+        font-size: 25px;   
     }
 
     & > *:not(:last-child) {
-        font-size: 25px;
+        font-size: 20px;
         padding-left: 1vw;
     }
     
