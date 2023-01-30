@@ -7,6 +7,7 @@ import Order from "./pages/Dashboard/Order/Order";
 import Payment from "./pages/Dashboard/Payment/Payment";
 import Products from "./pages/Dashboard/Products/Products";
 import Stock from "./pages/Dashboard/Stock/Stock";
+import { OrderOptionsProvider } from "./context/orderOptionsContext";
 
 export default function App (){
  
@@ -16,7 +17,9 @@ export default function App (){
                 <Routes>
                     <Route path="/login" element={<Authentication/>} />
                     <Route path="/dashboard" element={<Dashboard/>}>
-                        <Route path="/dashboard/pedido" element={<Order/>} />
+                       
+                        <Route path="/dashboard/pedido" element={<Order/>}/>
+
                         <Route path="/dashboard/estoque" element={<Stock/>} />
                         <Route path="/dashboard/pagamento" element={<Payment/>} />
                         <Route path="/dashboard/entrega" element={<Delivery/>} />

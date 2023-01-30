@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import FindAllProducts from '../../../components/Products/FindAllProducts';
-import NewProduct from '../../../components/Products/NewProduct';
+import NewOrder from '../../../components/Order/NewOrderIcon';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 
-export default function Products() {
+export default function Order() {
 
   const [show, setShow] = useState({options: true, function: <></>})
 
@@ -16,8 +16,7 @@ export default function Products() {
         {show.options ?(
         
             <ContainerOption>
-                <NewProduct show={show} setShow={setShow}/>
-                <FindAllProducts show={show} setShow={setShow}/>
+                <NewOrder show={show} setShow={setShow}/>
             </ContainerOption>
         
         ):(
