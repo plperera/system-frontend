@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import NewClient from './NewClientIcon';
-import SearchClient from './searchClientIcon';
+
+import { AiOutlineSearch } from 'react-icons/ai';
+import { IoIosAddCircleOutline } from 'react-icons/io';
+import NewAddress from './NewAddress';
+import SearchAddress from './SearchAddress';
 
 
-export default function ThirdOptions() {
+export default function ThirdOptions({setShow}) {
 
   return (
     <>
         
         <ContainerOption>
-            <NewClient/>
-            <SearchClient/>
+            <Option onClick={() => setShow(<NewAddress setShow={setShow}/>)}>
+                <div><IoIosAddCircleOutline /></div>
+                <h2>Novo Endereço</h2>
+            </Option>
+            <Option onClick={() => setShow(<SearchAddress setShow={setShow}/>)}>
+                <div><AiOutlineSearch /></div>
+                <h2>Ver endereços registrados</h2>
+            </Option>
         </ContainerOption>
 
     </>
@@ -71,3 +80,34 @@ export const IconDiv = styled.div`
         
     }
 `
+const Option = styled.div`
+    width: 100%;
+    height: 100%;
+    margin-right: 5vw;  
+
+    background-color: #c5c5c5;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    color: #171717;
+
+    cursor: pointer;
+
+    & > *:not(:first-child) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;  
+        font-weight: 700;
+    }
+
+    & > *:not(:last-child) {
+        font-size: 80px;
+        margin-bottom:1vh;
+    }
+`;

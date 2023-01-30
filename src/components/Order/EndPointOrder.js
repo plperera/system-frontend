@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import NewClient from './NewClientIcon';
-import SearchClient from './searchClientIcon';
 
-
-export default function EndPointOrder() {
+export default function EndPointOrder({setShow}) {
 
     return (
         <div>     
             Tudo certo, vc chegou ate o fim
+            <Button onClick={() => setShow(undefined)}>Finalizar</Button>            
         </div>
     );
 }
+
+const Button = styled.div`
+  width: 150px;
+  height: 90px;
+  background-color: lightblue;
+`
 

@@ -5,56 +5,44 @@ import styled from 'styled-components';
 import SecondOptions from '../../../components/Order/secondOptions';
 import EndPointOrder from "../../../components/Order/EndPointOrder";
 import NewAddress from "../../../components/Order/NewAddress";
-import NewClient from "../../../components/Order/NewClientIcon";
 import NewOrder from "../../../components/Order/NewOrder";
 import SearchAddress from "../../../components/Order/SearchAddress";
 import SearchClient from "../../../components/Order/SearchClient";
 import ThirdOptions from "../../../components/Order/thirdOption";
 import NewProduct from "../../../components/Products/NewProduct";
+import NewClient from '../../../components/Order/NewClient';
 
 export default function Order() {
 
   const [show, setShow] = useState(undefined)
 
-  const newOrderHash = {
-    secondOptions: <SecondOptions/>,
-    newClient: <NewClient/>,
-    searchClient: <SearchClient/>,
-    thirdOptions: <ThirdOptions/>,
-    hasAdress: <SearchAddress/>,
-    newAdress: <NewAddress/>,
-    newOrdder: <NewOrder/>,
-    newProduct: <NewProduct/>,
-    end: <EndPointOrder/>,
-  }
-
-  function teste(teste){
-    if (teste === 1){
-      setShow(newOrderHash["newClient"])
-    } else {
-      setShow(newOrderHash["end"])
-    }
-  }
-
   return (
     <Container>
-
-      <Caixa onClick={ () => teste(1)}>1</Caixa>
-      <Caixa onClick={ () => teste(2)}>2</Caixa>
-
-      <div>
-        {show !== undefined ? (show):(<>oi</>)}
-      </div>
-
+      <>
+        {show !== undefined ? (show):(
+        <ContainerOption>
+          <Caixa onClick={ () => setShow(<SecondOptions setShow={setShow}/>)}>Novo Pedido</Caixa>
+          <Caixa onClick={ () => setShow(undefined)}>Ver todos os pedidos</Caixa>
+        </ContainerOption>
+        )}
+      </>
     </Container>
   );
 }
 const Caixa = styled.div`
   width: 100px;
   height: 100px;
+
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  padding:0 10px;
+  
   background-color: lightgray;
   border-radius: 10px;
   margin-top: 10px;
+  margin-right:20px;
+  text-align:center;
 `
 const Container = styled.div`
     background-color: white;

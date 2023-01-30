@@ -1,20 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-import ProductForms from '../Products/ProductForms';
-import SecondOptions from './secondOptions';
-import ThirdOptions from './thirdOption';
 
-
-export default function NewClientIcon({setShow, show}) {
+export default function NewClientIcon() {
 
   const navigate = useNavigate();
 
   return (
-    <Container onClick={() => console.log("novo cliente")}>
-        <div><IoIosAddCircleOutline /></div>
-        <h2>Novo Cliente</h2>
-    </Container>
+    <></>
   );
 }
 

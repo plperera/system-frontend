@@ -3,16 +3,18 @@ import styled from 'styled-components';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import ProductForms from '../Products/ProductForms';
 import SecondOptions from './secondOptions';
+import EndPointOrder from './EndPointOrder';
 
 
 
-export default function NewOrder() {
+export default function NewOrder({setShow}) {
 
   const navigate = useNavigate();
 
   return (
     <Container>
         <h2>Preencha os dados para criar o pedido</h2>
+        <Button onClick={() => setShow(<EndPointOrder setShow={setShow}/>)}>Finalizar</Button>
     </Container>
   );
 }
@@ -48,4 +50,8 @@ export const Container = styled.div`
         margin-bottom:1vh;
     }
 `;
-
+const Button = styled.div`
+  width: 150px;
+  height: 90px;
+  background-color: lightblue;
+`
