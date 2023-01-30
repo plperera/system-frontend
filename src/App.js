@@ -5,6 +5,7 @@ import Delivery from "./pages/Dashboard/Delivey/Delivery";
 import Dashboard from "./pages/Dashboard/indexDashboard";
 import Order from "./pages/Dashboard/Order/Order";
 import Payment from "./pages/Dashboard/Payment/Payment";
+import Products from "./pages/Dashboard/Products/Products";
 import Stock from "./pages/Dashboard/Stock/Stock";
 
 export default function App (){
@@ -19,6 +20,7 @@ export default function App (){
                         <Route path="/dashboard/estoque" element={<Stock/>} />
                         <Route path="/dashboard/pagamento" element={<Payment/>} />
                         <Route path="/dashboard/entrega" element={<Delivery/>} />
+                        <Route path="/dashboard/produtos" element={< Products />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

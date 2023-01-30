@@ -9,7 +9,7 @@ import NavigationBar from '../../components/Dashboard/Dashboard';
 export default function Dashboard() {
   return (
         <Container>
-
+            
             <NavigationBar/>
             
             <PageContainer>
@@ -34,4 +34,10 @@ const Container = styled.div`
 `;
 
 const PageContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 `

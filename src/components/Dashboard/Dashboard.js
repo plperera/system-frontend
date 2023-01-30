@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { BsCashCoin, BsArchive } from 'react-icons/bs';
+import { MdListAlt } from 'react-icons/md';
 
 export default function NavigationBar() {
 
@@ -20,6 +21,11 @@ export default function NavigationBar() {
         <ItemContainer active={isActive('/dashboard/pedido')} onClick={() => navigate('/dashboard/pedido')}>
             <span>Pedido</span>
             <div><AiOutlineShoppingCart /></div>
+        </ItemContainer>
+
+        <ItemContainer active={isActive('/dashboard/produtos')} onClick={() => navigate('/dashboard/produtos')}>
+            <span>Produtos</span>
+            <div><MdListAlt /></div>
         </ItemContainer>
 
         <ItemContainer active={isActive('/dashboard/estoque')} onClick={() => navigate('/dashboard/estoque')}>
