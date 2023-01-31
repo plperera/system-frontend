@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import NewOrder from './NewOrder';
 import { useCustomForm } from '../../hooks/useCustomForms';
-import ThirdOptions from './thirdOption';
 
 export default function NewAddress({setShow}) {
     const [form, handleForm] = useCustomForm()
