@@ -1,9 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import NewClient from './NewClientIcon';
 import { useCustomForm } from '../../hooks/useCustomForms';
-import ThirdOptions from './thirdOption';
-import ClientTableLine from './clientTableLine';
 import { AddressCase } from './AddressCase';
 import NewAddress from './NewAddress';
 import NewOrder from './NewOrder';

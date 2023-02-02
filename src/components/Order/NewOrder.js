@@ -1,57 +1,96 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-import ProductForms from '../Products/ProductForms';
-import SecondOptions from './secondOptions';
+import { useCustomForm } from '../../hooks/useCustomForms';
 import EndPointOrder from './EndPointOrder';
+import OrderInput from './OrderInput';
 
 
 
 export default function NewOrder({setShow}) {
 
-  const navigate = useNavigate();
+  const [form, handleForm] = useCustomForm()
+  const [itemArray, setItemArray] = useState([1])
 
-  return (
-    <Container>
-        <h2>Preencha os dados para criar o pedido</h2>
-        <Button onClick={() => setShow(<EndPointOrder setShow={setShow}/>)}>Finalizar</Button>
-    </Container>
-  );
+    function sendForm(){
+        console.log(form)
+        setShow(<EndPointOrder setShow={setShow}/>)
+    }
+
+    return (
+
+        <Container>
+            <h1>Preencha os dados abaixo para fazer o pedido</h1>
+
+            <ContainerForms>
+
+              {itemArray.map(e => <OrderInput handleForm={handleForm} form={form} item={e}/>)}
+            
+            </ContainerForms>
+            
+            <ContainerButton>
+                <ButtonStyle onClick={() => setItemArray([...itemArray, (itemArray.length + 2)])}>mais linha ae</ButtonStyle>
+                <ButtonStyle onClick={() => sendForm()}>Cadastrar</ButtonStyle>
+            </ContainerButton>
+            
+        </Container>
+        
+    );
 }
 
-export const Container = styled.div`
+const Container = styled.div`
     width: 100%;
     height: 100%;
     margin-right: 5vw;  
 
-    background-color: #c5c5c5;
     border-radius: 5px;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
 
     color: #171717;
-
-    cursor: pointer;
-
-    & > *:not(:first-child) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 25px;  
-        font-weight: 700;
-    }
-
-    & > *:not(:last-child) {
-        font-size: 80px;
-        margin-bottom:1vh;
+    h1 {
+      margin-top:20px;
+      font-size: 22px !important;
+      font-weight:400;
     }
 `;
-const Button = styled.div`
-  width: 150px;
-  height: 90px;
-  background-color: lightblue;
+const ContainerForms = styled.div`
+  width: 80%;
+  height: 100%;
+  margin-right: 5vw;  
+  margin-top: 5vh;
+
+  border-radius: 5px;
+
+  display: flex !important;
+  flex-direction: column;
+
+  color: #171717;
+`
+
+const ButtonStyle = styled.div`
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  height: 6vh;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+
+  font-size: 1.4em;
+  letter-spacing: 0.24em;
+  font-weight: 700;
+
+  background-color: #0c7ead;
+
+  margin-top: 40px;
+`
+const ContainerButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
 `
