@@ -12,8 +12,23 @@ export default function NewOrder({setShow}) {
   const [itemArray, setItemArray] = useState([1])
 
     function sendForm(){
-        console.log(form)
-        setShow(<EndPointOrder setShow={setShow}/>)
+      const formatedForm = itemArray.map(item => {
+        return {
+          COD: form["COD" + item],
+          name: form["name" + item],
+          itemAmount: form["itemAmount" + item],
+          itemPrice: form["itemPrice" + item]
+        }
+      })
+      console.log(formatedForm)
+      setShow(<EndPointOrder setShow={setShow}/>)
+    }
+    function newItemLine(){
+      if(itemArray[itemArray.length - 1] === 8){
+        console.log("7 ta bom ne ?")
+      } else {
+        setItemArray([...itemArray, (itemArray.length + 2)])
+      }
     }
 
     return (
@@ -28,7 +43,7 @@ export default function NewOrder({setShow}) {
             </ContainerForms>
             
             <ContainerButton>
-                <ButtonStyle onClick={() => setItemArray([...itemArray, (itemArray.length + 2)])}>mais linha ae</ButtonStyle>
+                <ButtonStyle onClick={() => newItemLine()}>mais linha ae</ButtonStyle>
                 <ButtonStyle onClick={() => sendForm()}>Cadastrar</ButtonStyle>
             </ContainerButton>
             

@@ -45,19 +45,21 @@ export const Option = styled.div`
   align-items:center;
   justify-content: center;
   padding:0 10px;
-  font-size: 17px;
+  font-size: 2.9vh;
   
-  background-color: #E2E2E2;
   border-radius: 10px;
   margin-right: 3vw;
   text-align:center;
   cursor: pointer;
 
+  color: #171717;
+  background-color: white;
+  border: 3px solid #747474;
+
   :hover{
-    background-color:#02567c;
-    color: white;
-    font-weight: 700;
-    
+    border: 3px solid #02567c;
+    color: #02567c;
+    font-size: 3.1vh;
   }
 `
 const Container = styled.div`

@@ -1,12 +1,13 @@
 import styled from "styled-components"
 
 export default function OrderInput ({handleForm, form, item}){
+    
     return(
         <Container>
-            <Input placeholder='COD' name='COD' onChange={handleForm} value={form.COD}></Input>
-            <Input placeholder='Descrição' name='name' onChange={handleForm} value={form.name}></Input>
-            <Input placeholder='Quantidade' name='itemAmount' onChange={handleForm} value={form.itemAmount}></Input>
-            <Input placeholder='Preço' name='itemPrice' onChange={handleForm} value={form.itemPrice}></Input>
+            <Input placeholder='COD' name={'COD'+item} onChange={handleForm} value={form["COD" + item]}></Input>
+            <Input placeholder='Descrição' name={'name'+item} onChange={handleForm} value={form["name" + item]}></Input>
+            <Input placeholder='Quantidade' name={'itemAmount'+item} onChange={handleForm} value={form["itemAmount" + item]}></Input>
+            <Input placeholder='Preço' name={'itemPrice'+item} onChange={handleForm} value={form["itemPrice" + item]}></Input>
         </Container>
     )
 }
