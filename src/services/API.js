@@ -4,11 +4,9 @@ const BASE_URL = "http://localhost:4000"
 function CreateLogin(body){
     return axios.post(`${BASE_URL}/auth/sign-up`, body)
 }
-
 function CreateSession(body){
     return axios.post(`${BASE_URL}/auth/sign-in`, body)
 }
-
 function CreateProduct(body, token){
     return axios.post(`${BASE_URL}/products/new`, body, {
         headers: {
@@ -16,7 +14,13 @@ function CreateProduct(body, token){
         }
     })
 }
-
+function CreateClient(body, token){
+    return axios.post(`${BASE_URL}/clients`, body, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
 function GetAllProducts(token){
     return axios.get(`${BASE_URL}/products`, {
         headers: {
@@ -29,7 +33,8 @@ const api = {
     CreateLogin,
     CreateSession,
     CreateProduct,
-    GetAllProducts
+    GetAllProducts,
+    CreateClient
 }
 
 export default api

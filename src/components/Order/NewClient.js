@@ -1,14 +1,31 @@
 import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
 import NewAddress from './NewAddress';
+import api from "../../services/API"
+import UserContext from '../../context/UserContext';
+import { useContext } from 'react';
 
 export default function NewClient({setShow}) {
 
     const [form, handleForm] = useCustomForm()
+    const { userData } = useContext(UserContext);
 
-    function sendForm(){
-        console.log(form)
-        setShow(<NewAddress setShow={setShow}/>)
+    async function sendForm(){
+        try {
+            
+            const body = {
+                name: form.name,
+                CPForCNPJ: form.CPForCNPJ.replace(/[.-]/g, ''),
+                mainNumber: form.mainNumber,
+                email: form.email
+            }
+            console.log(body)
+            const result = await api.CreateClient(body, userData.token)
+            console.log(result)
+            setShow(<NewAddress setShow={setShow}/>)
+        } catch (error) {
+           console.log(error) 
+        }
     }
 
     return (
@@ -20,7 +37,7 @@ export default function NewClient({setShow}) {
 
             <div>
                 <Input placeholder='Nome' name='name' onChange={handleForm} value={form.name}></Input>
-                <Input placeholder='CPF' name='cpf' onChange={handleForm} value={form.cpf}></Input>
+                <Input placeholder='CPF/CNPJ' name='CPForCNPJ' onChange={handleForm} value={form.CPForCNPJ}></Input>
                 <Input placeholder='Numero' name='mainNumber' onChange={handleForm} value={form.mainNumber}></Input>
             </div>
 

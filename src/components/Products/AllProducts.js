@@ -108,10 +108,12 @@ const ContainerArrow = styled.div`
         justify-content: center;
         border-radius: 5px;
         margin-left: 1vw;
+        cursor: pointer;
     }
 `
 const Count = styled.div`
     width: 4vw !important;
     background-color: #D6D6D6 !important;
     color: #171717 !important;
+    cursor: default !important;
 `
