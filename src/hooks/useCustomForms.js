@@ -8,7 +8,7 @@ function useCustomForm(){
         setForm({...form, [name]: value})
     }
 
-    return [form, handleForm]
+    return [form, handleForm, setForm]
 }
 
 export {useCustomForm}

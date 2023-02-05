@@ -14,7 +14,7 @@ export default function Login ({hasLogin, setHasLogin}){
 
     async function sendForm (){
         try {
-            await api.createLogin(form)
+            await api.CreateLogin(form)
             setHasLogin(!hasLogin)
         } catch (error) {
             console.log(error)

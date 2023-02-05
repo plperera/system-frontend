@@ -1,41 +1,67 @@
 import { useState } from 'react';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
 import styled from 'styled-components';
-import FindAllProducts from '../../../components/Products/FindAllProducts';
+import AllProducts from '../../../components/Products/AllProducts';
 import NewProduct from '../../../components/Products/NewProduct';
 
+export default function Produts() {
 
-export default function Products() {
-
-  const [show, setShow] = useState({options: true, function: <></>})
+  const [show, setShow] = useState(undefined)
 
   return (
     <Container>
+      <>
+        <h1>Produtos</h1>
 
-        <h1>Tabela de Produtos</h1>
-        {show.options ?(
-        
-            <ContainerOption>
-                <NewProduct show={show} setShow={setShow}/>
-                <FindAllProducts show={show} setShow={setShow}/>
-            </ContainerOption>
-        
-        ):(
-            <>
-            <ContainerBack>
-                <IconDiv onClick={ () => {setShow({...show, options: !show.options})}}>
-                    <AiOutlineArrowLeft/>
-                    <span>Voltar</span>
-                </IconDiv>
-            </ContainerBack>
-            
-            {show.function}
-            </>
+        {show !== undefined ? ( show ):
+        (
+          <ContainerOption>
+
+            <Option onClick={ () => setShow(<NewProduct setShow={setShow}/>)}>Novo Produto</Option>
+            <Option onClick={ () => setShow(<AllProducts setShow={setShow}/>)}>Ver todos os Produtos</Option>
+
+          </ContainerOption>
         )}
+      </>
     </Container>
   );
 }
+export const ContainerOption = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
 
+    padding: 2.5vh 0vw;
+
+    width: 100%;
+    height: 25vh;
+
+    margin-top: 4vh;
+`
+export const Option = styled.div`
+  width: 30vw;
+  height: 10vh;
+
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  padding:0 10px;
+  font-size: 2.9vh;
+  
+  border-radius: 10px;
+  margin-right: 3vw;
+  text-align:center;
+  cursor: pointer;
+
+  color: #171717;
+  background-color: white;
+  border: 3px solid #747474;
+
+  :hover{
+    border: 3px solid #02567c;
+    color: #02567c;
+    font-size: 3.1vh;
+  }
+`
 const Container = styled.div`
     background-color: white;
     width: 75vw;
@@ -55,56 +81,3 @@ const Container = styled.div`
         letter-spacing: 0.1vw;
     }
 `;
-const ContainerOption = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
-
-    padding: 2.5vh 0vw;
-
-    width: 100%;
-    height: 25vh;
-
-    margin-top: 4vh;
-`
-const ContainerBack = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
-
-    padding: 2.5vh 0vw;
-
-    width: 100%;
-    height: 12vh;
-
-    margin-top: 4vh;
-`
-export const IconDiv = styled.div`
-    width: 200px;
-    height: 100%;
-
-    background-color: #c5c5c5;
-    border-radius: 5px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #171717;
-
-    cursor: pointer;
-
-    & > *:not(:first-child) {
-        font-size: 24px;
-    }
-
-    & > *:not(:last-child) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 25px;  
-        font-weight: 700;
-        
-    }
-`

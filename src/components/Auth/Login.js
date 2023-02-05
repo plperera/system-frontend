@@ -20,7 +20,7 @@ export default function Login (){
     async function sendForm (){
         try {
             console.log(form)
-            const result = await api.createSession(form)
+            const result = await api.CreateSession(form)
             setUserData(result.data)
             navigate('/dashboard')
 
