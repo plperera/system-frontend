@@ -58,7 +58,7 @@ export default function NewProduct({setShow}) {
     </Container>
   );
 }
-const ContainerTitle = styled.div`
+export const ContainerTitle = styled.div`
   display: flex;
   align-items: flex-end;
   div {
@@ -78,7 +78,7 @@ const ContainerTitle = styled.div`
     cursor: pointer;
   }
 `
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   height: 100%;
   margin-right: 5vw;  

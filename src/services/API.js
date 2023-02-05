@@ -17,14 +17,19 @@ function CreateProduct(body, token){
     })
 }
 
-function getAllProducts(){
-    return axios.get(`${BASE_URL}/products`)
+function GetAllProducts(token){
+    return axios.get(`${BASE_URL}/products`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
 }
 
 const api = {
     CreateLogin,
     CreateSession,
-    CreateProduct
+    CreateProduct,
+    GetAllProducts
 }
 
 export default api
