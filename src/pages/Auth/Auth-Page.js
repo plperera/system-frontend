@@ -1,13 +1,13 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
 import Login from '../../components/Auth/Login';
 import SignUp from '../../components/Auth/SignUp';
+import UserContext from '../../context/UserContext';
 
 export default function Authentication() {
 
     const [hasLogin, setHasLogin] = useState(true)
-
-    console.log(hasLogin)
 
     return (
         <Container>
