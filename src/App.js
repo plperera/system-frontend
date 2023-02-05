@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Authentication from "./pages/Auth/Auth-Page";
 import Delivery from "./pages/Dashboard/Delivey/Delivery";
@@ -8,6 +8,7 @@ import Payment from "./pages/Dashboard/Payment/Payment";
 import Products from "./pages/Dashboard/Products/Products";
 import Stock from "./pages/Dashboard/Stock/Stock";
 import { UserProvider } from "./context/UserContext";
+import useToken from "./hooks/useToken";
 
 export default function App (){
  
@@ -17,7 +18,14 @@ export default function App (){
                 <BrowserRouter>
                     <Routes>
                         <Route path="/login" element={<Authentication/>} />
-                        <Route path="/dashboard" element={<Dashboard/>}>
+
+                        <Route path="/dashboard" element={
+
+                            <ProtectedRouteGuard>
+                                <Dashboard/>
+                            </ProtectedRouteGuard>
+                        
+                        }>
                         
                             <Route path="/dashboard/pedido" element={<Order/>}/>
 
@@ -26,10 +34,21 @@ export default function App (){
                             <Route path="/dashboard/entrega" element={<Delivery/>} />
                             <Route path="/dashboard/produtos" element={< Products />} />
                         </Route>
+
                     </Routes>
                 </BrowserRouter>
             </UserProvider>
         </>
     )
 }
+
+function ProtectedRouteGuard({ children }) {
+    const token = useToken();
+  
+    if (!token) {
+      return <Navigate to="/sign-in" />;
+    }
+  
+    return <>{children}</>;
+  }
 
