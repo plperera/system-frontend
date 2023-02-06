@@ -21,6 +21,13 @@ function CreateClient(body, token){
         }
     })
 }
+function CreateAddress(body, token){
+    return axios.post(`${BASE_URL}/address`, body, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
 function GetAllProducts(token){
     return axios.get(`${BASE_URL}/products`, {
         headers: {
@@ -35,6 +42,13 @@ function GetAllClients(token){
         }
     })
 }
+function GetAllAddressByClientId(token, clientId){
+    return axios.get(`${BASE_URL}/address/all/${clientId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
 
 const api = {
     CreateLogin,
@@ -42,7 +56,9 @@ const api = {
     CreateProduct,
     GetAllProducts,
     CreateClient,
-    GetAllClients
+    GetAllClients,
+    CreateAddress,
+    GetAllAddressByClientId
 }
 
 export default api

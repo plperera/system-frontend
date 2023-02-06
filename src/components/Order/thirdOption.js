@@ -62,10 +62,10 @@ export default function ThirdOptions({setShow, ClientData}) {
       </ContainerTitle>
 
       <ContainerOption>
-        <Option onClick={() => setShow(<NewAddress setShow={setShow}/>)}>
+        <Option onClick={() => setShow(<NewAddress setShow={setShow} ClientData={ClientData}/>)}>
           <h2>Novo Endereço</h2>
         </Option>
-        <Option onClick={() => setShow(<SearchAddress setShow={setShow}/>)}>
+        <Option onClick={() => setShow(<SearchAddress setShow={setShow} ClientData={ClientData}/>)}>
           <h2>Ver endereços registrados</h2>
         </Option>
       </ContainerOption>

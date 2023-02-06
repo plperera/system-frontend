@@ -1,19 +1,34 @@
 import styled from 'styled-components';
 import NewOrder from './NewOrder';
 import { useCustomForm } from '../../hooks/useCustomForms';
+import { ContainerTitle } from '../Products/NewProduct';
+import ThirdOptions from './thirdOption';
+import { useContext } from 'react';
+import UserContext from '../../context/UserContext';
+import api from '../../services/API';
 
-export default function NewAddress({setShow}) {
+export default function NewAddress({setShow, ClientData}) {
     const [form, handleForm] = useCustomForm()
+    const { userData } = useContext(UserContext);
 
-    function sendForm(){
+
+    async function sendForm(){
         console.log(form)
-        setShow(<NewOrder setShow={setShow}/>)
+        const body = {
+            ...form,
+            clientId: ClientData.id
+        }
+        const result = await api.CreateAddress(body, userData.token)
+        setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={result}/>)
     }
 
     return (
 
         <Container>
-            <h1>Preencha os dados abaixo para Definir o Endereço de Entrega para o Cliente</h1>
+            <ContainerTitle>
+                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para Definir o Endereço de Entrega para o Cliente</h1>
+                <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+            </ContainerTitle>
 
             <ContainerForms>
 

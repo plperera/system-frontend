@@ -1,36 +1,90 @@
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import UserContext from '../../context/UserContext';
 import { useCustomForm } from '../../hooks/useCustomForms';
+import api from '../../services/API';
+import { ContainerTitle } from '../Products/NewProduct';
 import { AddressCase } from './AddressCase';
 import NewAddress from './NewAddress';
 import NewOrder from './NewOrder';
+import ThirdOptions from './thirdOption';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import AddressTableLine from './AddressTableLine';
 
-export default function SearchClient({setShow}) {
+export default function SearchAddress({setShow, ClientData}) {
 
-    const [form, handleForm] = useCustomForm()
+    const [refresh, setRefresh] = useState(false)
+    const [address, setAddress] = useState(false)
+    const addressPerTable = 7
+    const [limit, setLimit] = useState(addressPerTable)
+    const { userData } = useContext(UserContext);
+    
 
-    function sendForm(){
-        console.log(form)
+    async function findAllAddress(){
+        try {
+            const result = await api.GetAllAddressByClientId(userData.token, ClientData.id)
+            console.log(result)
+            setAddress(result.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        
+        findAllAddress()
+
+    }, [refresh])
+
+    function LimitByArrow(type){
+        if(type === "<" && limit > addressPerTable){
+            setLimit(limit - addressPerTable)
+        } else  if (address.length - 1 > limit && type === ">"){
+            setLimit(limit + addressPerTable)
+        }
     }
 
     return (
 
         <Container>
+            <ContainerTitle>
+                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Clique para Selecionar um Endereço para entrega</h1>
+                <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+            </ContainerTitle>
 
-            <h1>Selecione o Endereço para entrega</h1>
+            <ContainerTable>
+                {address ? (
+                    <>  
+                        <AddressTableLine i={"#"}/>
+                        {address.map((e,i) => {
+                            if (i <= limit && i>= limit - addressPerTable){
+                                return(
+                                    <>
+                                        <AddressTableLine i={i} body={e} setShow={setShow} ClientData={ClientData}/>
+                                    </>
+                                )
+                            }
+                        })}
+                        <ContainerOptions>
 
-            <ResultContainer>
-                <AddressCase/>
-                <AddressCase/>
-                <AddressCase/>
-                <AddressCase/>
-            </ResultContainer> 
+                            <ButtonStyled onClick={ () => setShow(<NewAddress setShow={setShow} ClientData={ClientData}/>)}>
+                                Criar novo Endereço
+                            </ButtonStyled>
 
-            <ButtonsStyled>
-                <div onClick={ () => setShow(<NewAddress setShow={setShow} />)}>Criar novo Endereço</div>
-                <EndButton onClick={ () => setShow(<NewOrder setShow={setShow} />)}>Prosseguir</EndButton>
-            </ButtonsStyled>
-            
-        
+                            <ContainerArrow>
+                                <div onClick={() => LimitByArrow("<")}><FaArrowLeft/></div>
+                                <Count>{(limit / addressPerTable)}</Count>
+                                <div onClick={() => LimitByArrow(">")}><FaArrowRight/></div>
+                            </ContainerArrow>
+                            
+                        </ContainerOptions>
+                            
+                    </>
+                ):(<>Carregando...</>)}
+            </ContainerTable>               
         </Container>
         
     );
@@ -52,38 +106,64 @@ const Container = styled.div`
       font-weight:400;
     }
 `;
-const ResultContainer = styled.div`
+const ButtonStyled = styled.div`
+  width: 100%;
+  height: 4vh;
+  margin-top: 1vh;
 
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    width:100%;
-    height:45%;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  padding:0 10px;
+  font-size: 2vh;
+  
+  border-radius: 10px;
+  margin-right: 3vw;
+  text-align:center;
+  cursor: pointer;
 
-    margin-top:22px;
+  color: #171717;
+  background-color: white;
+  border: 2px solid #747474;
+
+  :hover{
+    border: 2px solid #02567c;
+    color: #02567c;
+    font-size: 2.2vh;
+  }
 `
-const ButtonsStyled = styled.div`
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    width:100%;
-    height:45%;
+const ContainerTable = styled.div`
+    margin-top: 5vh;
+`
+const ContainerArrow = styled.div`
+
+    display: flex;
+    align-self: center;
+    justify-content: end;
+    width: 35vw;
+    margin-top: 1vh;
+
     div {
-        display:flex;
+        width: 5vh;
+        height: 3vh;
+        font-size: 15px;
+        background-color: #2E2E2E;
+        color: white;
+        display: flex;
         align-items: center;
         justify-content: center;
-
-        font-size: 20px;
-
-        width:90%;
-        height:10vh;
-
-        background-color: #D1D1D1;
         border-radius: 5px;
+        margin-left: 1vw;
+        cursor: pointer;
     }
 `
-const EndButton = styled.div`
-    background-color: #0c7ead !important;
-    color: white;
-    font-size: 28px !important;
-    font-weight: 700;
-    letter-spacing: 0.3vw;
+const Count = styled.div`
+    width: 4vw !important;
+    background-color: #D6D6D6 !important;
+    color: #171717 !important;
+    cursor: default !important;
+`
+const ContainerOptions = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 `
