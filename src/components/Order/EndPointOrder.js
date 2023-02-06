@@ -2,19 +2,18 @@ import styled from 'styled-components';
 import { BsFillCartCheckFill } from 'react-icons/bs';
 import SecondOptions from './secondOptions';
 
-export default function EndPointOrder({setShow}) {
+export default function EndPointOrder({ setShow }) {
+  return ( 
+    <Container>
+      <BsFillCartCheckFill/>
+      <h1>Pedido realizado com sucesso !</h1>
+      <ContainerButton>
+        <Button onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Novo Pedido</Button> 
+        <Button onClick={() => setShow(undefined)}>Voltar para o Inicio</Button> 
+      </ContainerButton>
 
-    return ( 
-        <Container>
-            <BsFillCartCheckFill/>
-            <h1>Pedido realizado com sucesso !</h1>
-            <ContainerButton>
-                <Button onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Novo Pedido</Button> 
-                <Button onClick={() => setShow(undefined)}>Voltar para o Inicio</Button> 
-            </ContainerButton>
-
-        </Container>           
-    );
+    </Container>           
+  );
 }
 
 const Button = styled.div`
@@ -36,7 +35,7 @@ const Button = styled.div`
     color: #02567c;
     font-size: 2.5vh;
   }
-`
+`;
 const Container = styled.div`
     display: flex;
     align-items: center;
@@ -55,11 +54,11 @@ const Container = styled.div`
     h1 {
         margin-top: 3vh;
     }
-`
+`;
 const ContainerButton = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 1.3vh;
     margin-top: 4vh;
-`
+`;
 

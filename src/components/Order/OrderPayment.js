@@ -11,6 +11,7 @@ import PaymentInput from './PaymentInput';
 import api from '../../services/API';
 import { useContext } from 'react';
 import UserContext from '../../context/UserContext';
+import EndPointOrder from './EndPointOrder';
 
 export default function OrderPayment({ setShow, OrderData, ClientData, AddressData, oldForm, oldItemArray }) {
   const { userData } = useContext(UserContext);
@@ -30,7 +31,7 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
       try {
         console.log(body);
         const result = await api.CreateOrder(body, userData.token);
-        console.log(result);
+        setShow(<EndPointOrder setShow={setShow}/>);
       } catch (error) {
         console.log(error);
       }
