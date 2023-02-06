@@ -1,8 +1,3 @@
-import styled from 'styled-components';
-
-import { AiOutlineSearch } from 'react-icons/ai';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-
 import NewClient from './NewClient';
 import SearchClient from './SearchClient';
 import { ContainerOption, Option } from '../../pages/Dashboard/Order/Order';

@@ -16,8 +16,8 @@ export default function OrderResume({form, itemArray, handleForm}){
                 {itemArray.map(e =>
                     <Item>
                         <div>{form[`COD${e}`]}</div>
-                        <div style={{justifyContent:"center"}}>{form[`itemAmount${e}`]}</div>
-                        <div style={{paddingLeft:"1.3vw"}}>{(form[`itemPrice${e}`]*form[`itemAmount${e}`] || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                        <div style={{justifyContent:"center"}}>{form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')}</div>
+                        <div style={{paddingLeft:"1.3vw"}}>{(form[`itemPrice${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')*form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '') || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </div>
                     </Item>
                 )}
@@ -27,17 +27,17 @@ export default function OrderResume({form, itemArray, handleForm}){
             <SubContainer>
 
                 <div>Frete</div>
-                <Input placeholder='Frete' name="frete" onChange={handleForm} value={form.frete}></Input>
+                <Input placeholder='Frete' name="frete" onChange={handleForm} value={form.frete?.replace(",",".")?.replace(/[^0-9]/g, '')}></Input>
 
                 <div>{"Desconto (-)"}</div>
-                <Input placeholder='Desconto' name="desconto" onChange={handleForm} value={form.desconto}></Input>
+                <Input placeholder='Desconto' name="desconto" onChange={handleForm} value={form.desconto?.replace(",",".")?.replace(/[^0-9]/g, '')}></Input>
 
                 <div>Total</div>
                 <div style={{paddingLeft:"1.3vw"}}>
                     {
-                        (itemArray.reduce((total, e) => (form[`itemPrice${e}`]*form[`itemAmount${e}`] || 0) + total, 0)
-                        +Number(form.frete || 0)
-                        -Number(form.desconto || 0))
+                        (itemArray.reduce((total, e) => (form[`itemPrice${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')*form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '') || 0) + total, 0)
+                        +Number(form.frete?.replace(",",".")?.replace(/[^0-9]/g, '') || 0)
+                        -Number(form.desconto?.replace(",",".")?.replace(/[^0-9]/g, '') || 0))
                             .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
                 </div>
@@ -106,11 +106,4 @@ const Input = styled.input`
   :focus {
     border-bottom: 0.2vh #0070a1 solid;
   }
-`
-const InputContainer = styled.div`
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 5vh;
 `

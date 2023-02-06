@@ -1,8 +1,4 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-
-import { AiOutlineSearch } from 'react-icons/ai';
-import { IoIosAddCircleOutline } from 'react-icons/io';
 import NewAddress from './NewAddress';
 import SearchAddress from './SearchAddress';
 import { ContainerOption, Option } from '../../pages/Dashboard/Order/Order';

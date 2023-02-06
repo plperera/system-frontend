@@ -1,7 +1,5 @@
 import styled from "styled-components"
-import formatar from "../../common/Functions/CPForCNPJ"
 import NewOrder from "./NewOrder"
-import ThirdOptions from "./thirdOption"
 
 export default function AddressTableLine({body, i, setShow, ClientData}) {
 

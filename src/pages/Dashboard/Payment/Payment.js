@@ -1,10 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-
 export default function Payment() {
-
-  const navigate = useNavigate();
 
   return (
     <Container>Pagamentos - Em breve...</Container>

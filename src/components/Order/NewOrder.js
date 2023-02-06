@@ -1,67 +1,95 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
 import { ContainerTitle } from '../Products/NewProduct';
-import EndPointOrder from './EndPointOrder';
 import OrderInput from './OrderInput';
 import ThirdOptions from './thirdOption';
 import { BiAddToQueue } from 'react-icons/bi';
 import OrderResume from './OrderResume';
+import UserContext from '../../context/UserContext';
+import api from '../../services/API';
 
 
 export default function NewOrder({setShow, ClientData, AddressData}) {
 
-  const [form, handleForm] = useCustomForm()
+  const [form, handleForm, setForm] = useCustomForm()
   const [itemArray, setItemArray] = useState([1])
+  const [products, setProducts] = useState(false)
+  const { userData } = useContext(UserContext);
+  console.log(userData)
 
-    function sendForm(){
-      const formatedForm = itemArray.map(item => {
-        return {
-          COD: form["COD" + item],
-          name: form["name" + item],
-          itemAmount: form["itemAmount" + item],
-          itemPrice: form["itemPrice" + item]
-        }
-      })
-      console.log(formatedForm)
-      setShow(<EndPointOrder setShow={setShow}/>)
-    }
-    function newItemLine(){
-      if(itemArray[itemArray.length - 1] === 9){
-        console.log("8 ta bom ne ?")
-      } else {
-        setItemArray([...itemArray, (itemArray.length + 2)])
+  function sendForm(){
+    const itens = itemArray.map(item => {
+      return {
+        productId: form["id" + item],
+        itemAmount: form["itemAmount" + item],
+        itemPrice: form["itemPrice" + item]
       }
+    })
+    const body = {
+      itens,
+      userId: userData.user.id,
+      clientId: ClientData.id,
+      enrollmentId: AddressData.id
     }
+    console.log(body)
+    //setShow(<EndPointOrder setShow={setShow}/>)
+  }
+  function newItemLine(){
+    if(itemArray[itemArray.length - 1] === 9){
+      console.log("8 ta bom ne ?")
+    } else {
+      setItemArray([...itemArray, (itemArray.length + 2)])
+    }
+  }
+
+  async function findAllProducts(){
+    try {
+      const result = await api.GetAllProducts(userData.token)
+      setProducts(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+      
+    findAllProducts()
+  // eslint-disable-next-line
+  }, [])
 
     return (
+        products ? (
+          <>
+            <Container>
+              <ContainerTitle>
+                  <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para fazer o pedido</h1>
+                  <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+              </ContainerTitle>
 
-        <Container>
-            <ContainerTitle>
-                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para fazer o pedido</h1>
-                <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
-            </ContainerTitle>
+              <ContainerBody>
+                <ContainerForms>
 
-            <ContainerBody>
-              <ContainerForms>
+                  {itemArray.map(e => 
+                    <OrderInput handleForm={handleForm} form={form} item={e} products={products} setForm={setForm}/>
+                  )}
+                  <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
+                
+                </ContainerForms>
 
-                {itemArray.map(e => <OrderInput handleForm={handleForm} form={form} item={e}/>)}
-                <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
+                <ContainerResume>
+                  <OrderResume form={form} itemArray={itemArray} handleForm={handleForm}/>
+                </ContainerResume>
+              </ContainerBody>
               
-              </ContainerForms>
-
-              <ContainerResume>
-                <OrderResume form={form} itemArray={itemArray} handleForm={handleForm}/>
-              </ContainerResume>
-            </ContainerBody>
-            
-            
-            <ContainerButton>
-                <div onClick={() => sendForm()}>Cadastrar</div>
-            </ContainerButton>
-            
-        </Container>
-        
+              
+              <ContainerButton>
+                  <div onClick={() => sendForm()}>Cadastrar</div>
+              </ContainerButton>
+              
+            </Container>
+          </>
+        ):(<>carregando...</>)        
     );
 }
 const ContainerBody = styled.div`

@@ -6,19 +6,6 @@ import { Container, ContainerTitle } from './NewProduct';
 import ProductTableLine from './ProductTableLine';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
-const data = [
-    {
-        COD:"BV10",
-        name: "Bloco de Vedação",
-        defaultPrice:"R$ 2,60",
-        height:"9cm",
-        width:"19cm",
-        depth:"39cm",
-        createdAt:"30/01/2023",
-        updatedAt:"30/01/2023"
-    }
-]
-
 export default function AllProducts({setShow}) {
 
     const [refresh, setRefresh] = useState(false)
@@ -39,7 +26,7 @@ export default function AllProducts({setShow}) {
     useEffect(() => {
         
         findAllProducts()
-
+    // eslint-disable-next-line
     }, [refresh])
 
     function LimitByArrow(type){
@@ -62,7 +49,8 @@ export default function AllProducts({setShow}) {
                 {products ? (
                     <>  
                         <ProductTableLine i={"#"}/>
-                        {products.map((e,i) => {
+                        {// eslint-disable-next-line
+                        products.map((e,i) => {
                             if (i <= limit && i>= limit - 9){
                                 return(
                                     <>

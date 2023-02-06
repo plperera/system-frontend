@@ -3,19 +3,16 @@ import { useContext } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import UserContext from '../../context/UserContext';
-import { useCustomForm } from '../../hooks/useCustomForms';
 import api from '../../services/API';
 import { ContainerTitle } from '../Products/NewProduct';
-import { AddressCase } from './AddressCase';
 import NewAddress from './NewAddress';
-import NewOrder from './NewOrder';
 import ThirdOptions from './thirdOption';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import AddressTableLine from './AddressTableLine';
 
 export default function SearchAddress({setShow, ClientData}) {
 
-    const [refresh, setRefresh] = useState(false)
+    //const [refresh, setRefresh] = useState(false)
     const [address, setAddress] = useState(false)
     const addressPerTable = 7
     const [limit, setLimit] = useState(addressPerTable)
@@ -36,8 +33,8 @@ export default function SearchAddress({setShow, ClientData}) {
     useEffect(() => {
         
         findAllAddress()
-
-    }, [refresh])
+    // eslint-disable-next-line
+    }, [])
 
     function LimitByArrow(type){
         if(type === "<" && limit > addressPerTable){
@@ -59,7 +56,8 @@ export default function SearchAddress({setShow, ClientData}) {
                 {address ? (
                     <>  
                         <AddressTableLine i={"#"}/>
-                        {address.map((e,i) => {
+                        { // eslint-disable-next-line
+                        address.map((e,i) => {
                             if (i <= limit && i>= limit - addressPerTable){
                                 return(
                                     <>

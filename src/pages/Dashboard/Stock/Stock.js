@@ -1,10 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-
 export default function Stock() {
-
-  const navigate = useNavigate();
 
   return (
     <Container>Controle de estoque - Em breve...</Container>

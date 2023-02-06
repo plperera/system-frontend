@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
-import ThirdOptions from './thirdOption';
 import ClientTableLine from './clientTableLine';
 import { ContainerTitle } from '../Products/NewProduct';
 import SecondOptions from './secondOptions';
@@ -12,7 +11,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 export default function SearchClient({setShow}) {
 
     const [form, handleForm] = useCustomForm()
-    const [refresh, setRefresh] = useState(false)
+    //const [refresh, setRefresh] = useState(false)
     const [clients, setClients] = useState(false)
     const [search, setSearch] = useState(false)
 
@@ -35,8 +34,8 @@ export default function SearchClient({setShow}) {
     useEffect(() => {
         
         findAllClients()
-
-    }, [refresh])
+    // eslint-disable-next-line
+    }, [])
 
     function LimitByArrow(type){
         if(type === "<" && limit > clientPerTable){
@@ -46,6 +45,7 @@ export default function SearchClient({setShow}) {
         }
     }
     function sendForm(){
+        // eslint-disable-next-line
         setSearch(clients.filter(e => {
             if( e.name.toLowerCase().includes(form.search.toLowerCase()) 
                 || e.CPForCNPJ.toLowerCase().includes(form.search.toLowerCase()) 
@@ -74,7 +74,8 @@ export default function SearchClient({setShow}) {
                 {search ? (
                     <>  
                         <ClientTableLine i={"#"}/>
-                        {search.map((e,i) => {
+                        {// eslint-disable-next-line
+                        search.map((e,i) => {
                             if (i <= limit && i>= limit - clientPerTable){
                                 return(
                                     <>
@@ -175,12 +176,6 @@ const ButtonStyle = styled.div`
     font-weight: 700;
 
     background-color: #0c7ead;
-`
-const ContainerButton = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
 `
 const ContainerTable = styled.div`
     margin-top: 0vh;
