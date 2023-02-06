@@ -8,34 +8,34 @@ export default function ClientDataCard({ ClientData }) {
       <div>
 
         <p>Nome: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {ClientData.name}
         </p>      
 
         <p>CPF/CNPJ: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {ClientData.CPForCNPJ.length === 11 ?(formatar.CPF(ClientData.CPForCNPJ)):(formatar.CNPJ(ClientData.CPForCNPJ))}
         </p>
 
         <p>Email: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {ClientData.email}
         </p>
 
       </div>
       <div>
         <p>Telefone para Contato: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {ClientData.mainNumber}
         </p>
 
         <p>Cadastrado em: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {dayjs(ClientData.createdAt).locale('pt-br').format('DD/MM/YYYY - HH:mm')}
         </p>
 
         <p>Ultima Atualização: </p>
-        <p style={{ fontSize: '17px', fontWeight: 700 }}>
+        <p style={{ fontWeight: 700 }}>
           {dayjs(ClientData.updatedAt).locale('pt-br').format('DD/MM/YYYY - HH:mm')}
         </p>
 

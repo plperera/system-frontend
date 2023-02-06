@@ -18,7 +18,13 @@ export default function OrderDataCard({ OrderData }) {
         <OrderTitle>Total</OrderTitle>
         <OrderItem>
           {
-            OrderData.itens.reduce((total, e) => total + Number(e.itemAmount) * Number(e.itemPrice), 0)
+            OrderData.itens.reduce((total, e) => {
+              if(e.COD === 'DESC') {
+                return total + Number(e.itemAmount) * Number(e.itemPrice) * -1;
+              } else {
+                return total + Number(e.itemAmount) * Number(e.itemPrice);
+              }
+            }, 0)
               .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
           }
         </OrderItem>  

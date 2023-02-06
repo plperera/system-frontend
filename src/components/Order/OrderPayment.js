@@ -7,7 +7,7 @@ import OrderDataCard from './OrderDataCard ';
 
 export default function OrderPayment({ setShow, OrderData, ClientData, AddressData, oldForm, oldItemArray }) {
   return(
-    <>
+    <Container>
       <InfoContainer>
         <div>
           <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações do Cliente</h1>
@@ -25,15 +25,17 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
       </InfoContainer>
 
       <ContainerTitle>
-        <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Endereço</h1>
+        <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Qual a forma de pagamento</h1>
         <div onClick={() => setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={AddressData} oldForm={oldForm} oldItemArray={oldItemArray}/>)}>Clique aqui para voltar</div>
       </ContainerTitle>
-    </>
+    </Container>
   );
 }
+const Container = styled.div`
+    width:100%;
+    display: grid;
+    grid-template-columns: 45% 45%;
+`;
 const InfoContainer = styled.div`
-    width:60%;
-    
-
-    
+    width:100%;    
 `;
