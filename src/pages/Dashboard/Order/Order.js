@@ -26,16 +26,18 @@ export default function Order() {
   );
 }
 export const ContainerOption = styled.div`
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
 
-    padding: 2.5vh 0vw;
+  padding: 2.5vh 0vw;
 
-    width: 100%;
-    height: 25vh;
+  width: 100%;
+  height: 25vh;
 
-    margin-top: 4vh;
+  margin-top: 4vh;
+  
+    
 `
 export const Option = styled.div`
   width: 30vw;

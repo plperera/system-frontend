@@ -1,12 +1,12 @@
 import styled from "styled-components"
+import formatar from "../../common/Functions/CPForCNPJ"
 import ThirdOptions from "./thirdOption"
 
 export default function ClientTableLine({body, i, setShow}) {
 
     function Select(){
-        setShow(<ThirdOptions setShow={setShow}/>)
+        setShow(<ThirdOptions setShow={setShow} ClientData={body}/>)
     }
-
     
     return(
         <>
@@ -33,11 +33,10 @@ export default function ClientTableLine({body, i, setShow}) {
                     bold={"400"}
                     onClick={() => Select()}
                     >
-
-                        <div>{i}</div>
+                        <div>{body.id}</div>
                         <div>{body.name}</div>
                         <div>{body.mainNumber}</div>
-                        <div>{body.cpf}</div>
+                        <div>{body.CPForCNPJ.length === 11 ?(formatar.CPF(body.CPForCNPJ)):(formatar.CNPJ(body.CPForCNPJ))}</div>
                         <div>{body.email}</div>
                     </Container>
                 </>
@@ -45,6 +44,7 @@ export default function ClientTableLine({body, i, setShow}) {
         </>
     )
 }
+
 const Container = styled.div`
     display:grid;
     grid-template-columns: 0.75fr 3fr 2fr 2fr 4fr;
@@ -52,6 +52,7 @@ const Container = styled.div`
 
     width:100%;
     height:5vh;
+    font-size:1.2vh;
 
     color:${props => props.color};
     font-weight:${props => props.bold};

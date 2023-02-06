@@ -1,41 +1,97 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
 import ThirdOptions from './thirdOption';
 import ClientTableLine from './clientTableLine';
+import { ContainerTitle } from '../Products/NewProduct';
+import SecondOptions from './secondOptions';
+import UserContext from '../../context/UserContext';
+import api from '../../services/API';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function SearchClient({setShow}) {
 
     const [form, handleForm] = useCustomForm()
+    const [refresh, setRefresh] = useState(false)
+    const [clients, setClients] = useState(false)
+    const [search, setSearch] = useState(false)
 
+    const clientPerTable = 7
+    const [limit, setLimit] = useState(clientPerTable)
+    const { userData } = useContext(UserContext);
+    
+
+    async function findAllClients(){
+        try {
+            const result = await api.GetAllClients(userData.token)
+            setClients(result.data)
+            setSearch(result.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        
+        findAllClients()
+
+    }, [refresh])
+
+    function LimitByArrow(type){
+        if(type === "<" && limit > clientPerTable){
+            setLimit(limit - clientPerTable)
+        } else  if (clients.length - 1 > limit && type === ">"){
+            setLimit(limit + clientPerTable)
+        }
+    }
     function sendForm(){
-        console.log(form)
-        setShow(<ThirdOptions setShow={setShow}/>)
+        setSearch(clients.filter(e => {
+            if( e.name.toLowerCase().includes(form.search.toLowerCase()) 
+                || e.CPForCNPJ.toLowerCase().includes(form.search.toLowerCase()) 
+                || e.mainNumber.toLowerCase().includes(form.search.toLowerCase())
+                || e.email.toLowerCase().includes(form.search.toLowerCase())
+            ) return true
+        }))
     }
 
     return (
 
         <Container>
-            <h1>Qual o Nome ou CPF do Cliente ?</h1>
+            <ContainerTitle>
+                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Qual o Nome ou CPF do Cliente ?</h1>
+                <div onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Clique aqui para voltar</div>
+            </ContainerTitle>
 
             <ContainerForms>
 
                 <Input placeholder='Qual o Nome ou CPF do Cliente ?' name='search' onChange={handleForm} value={form.search}></Input>
-                <ButtonStyle>BUSCAR</ButtonStyle>
+                <ButtonStyle onClick={ () => sendForm()}>BUSCAR</ButtonStyle>
             
             </ContainerForms>    
 
-            <ResultContainer>
-                <ClientTableLine i={"#"}/>
-                <ClientTableLine 
-                    i={1} 
-                    body={{name:"Pedro", email:"Pedro@email.com",cpf:"123.123.123-12",mainNumber:"(35) 99911-1122"}}
-                    setShow={setShow}
-                    />
-                <ClientTableLine i={2} body={{name:"Pedro", email:"Pedro@email.com",cpf:"123.123.123-12",mainNumber:"(35) 99911-1122"}}/>
-                <ClientTableLine i={3} body={{name:"Pedro", email:"Pedro@email.com",cpf:"123.123.123-12",mainNumber:"(35) 99911-1122"}}/>
-                <ClientTableLine i={4} body={{name:"Pedro", email:"Pedro@email.com",cpf:"123.123.123-12",mainNumber:"(35) 99911-1122"}}/>
-            </ResultContainer> 
+            <ContainerTable>
+                {search ? (
+                    <>  
+                        <ClientTableLine i={"#"}/>
+                        {search.map((e,i) => {
+                            if (i <= limit && i>= limit - clientPerTable){
+                                return(
+                                    <>
+                                        <ClientTableLine i={i} body={e} setShow={setShow}/>
+                                    </>
+                                )
+                            }
+                        })}
+                        <ContainerArrow>
+                            <div onClick={() => LimitByArrow("<")}><FaArrowLeft/></div>
+                            <Count>{(limit / clientPerTable)}</Count>
+                            <div onClick={() => LimitByArrow(">")}><FaArrowRight/></div>
+                        </ContainerArrow>
+                            
+                    </>
+                ):(<>Carregando...</>)}
+            </ContainerTable> 
 
         </Container>
         
@@ -60,7 +116,7 @@ const Container = styled.div`
 `;
 const ContainerForms = styled.form`
   width: 80%;
-  height: 14%;
+  height: 12%;
   margin-top: 3vh;
 
   border-radius: 5px;
@@ -126,5 +182,34 @@ const ContainerButton = styled.div`
     justify-content: center;
     width: 80%;
 `
-const ResultContainer = styled.div`
+const ContainerTable = styled.div`
+    margin-top: 0vh;
+`
+const ContainerArrow = styled.div`
+
+    display: flex;
+    align-self: center;
+    justify-content: end;
+    width: 70vw;
+    margin-top: 1vh;
+
+    div {
+        width: 5vh;
+        height: 3vh;
+        font-size: 15px;
+        background-color: #2E2E2E;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        margin-left: 1vw;
+        cursor: pointer;
+    }
+`
+const Count = styled.div`
+    width: 4vw !important;
+    background-color: #D6D6D6 !important;
+    color: #171717 !important;
+    cursor: default !important;
 `

@@ -28,13 +28,21 @@ function GetAllProducts(token){
         }
     })
 }
+function GetAllClients(token){
+    return axios.get(`${BASE_URL}/clients`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+}
 
 const api = {
     CreateLogin,
     CreateSession,
     CreateProduct,
     GetAllProducts,
-    CreateClient
+    CreateClient,
+    GetAllClients
 }
 
 export default api

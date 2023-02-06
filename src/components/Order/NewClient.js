@@ -4,6 +4,8 @@ import NewAddress from './NewAddress';
 import api from "../../services/API"
 import UserContext from '../../context/UserContext';
 import { useContext } from 'react';
+import { ContainerTitle } from '../Products/NewProduct';
+import SecondOptions from './secondOptions';
 
 export default function NewClient({setShow}) {
 
@@ -19,10 +21,8 @@ export default function NewClient({setShow}) {
                 mainNumber: form.mainNumber,
                 email: form.email
             }
-            console.log(body)
             const result = await api.CreateClient(body, userData.token)
-            console.log(result)
-            setShow(<NewAddress setShow={setShow}/>)
+            setShow(<NewAddress setShow={setShow} ClientData={result}/>)
         } catch (error) {
            console.log(error) 
         }
@@ -31,7 +31,10 @@ export default function NewClient({setShow}) {
     return (
 
         <Container>
-            <h1>Preencha os dados abaixo para Cadastrar o Cliente</h1>
+            <ContainerTitle>
+                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para Cadastrar o Cliente</h1>
+                <div onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Clique aqui para voltar</div>
+            </ContainerTitle>
 
             <ContainerForms>
 
