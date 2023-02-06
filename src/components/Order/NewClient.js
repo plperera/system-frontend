@@ -22,7 +22,7 @@ export default function NewClient({setShow}) {
                 email: form.email
             }
             const result = await api.CreateClient(body, userData.token)
-            setShow(<NewAddress setShow={setShow} ClientData={result}/>)
+            setShow(<NewAddress setShow={setShow} ClientData={result.data}/>)
         } catch (error) {
            console.log(error) 
         }

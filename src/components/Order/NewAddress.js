@@ -11,15 +11,15 @@ export default function NewAddress({setShow, ClientData}) {
     const [form, handleForm] = useCustomForm()
     const { userData } = useContext(UserContext);
 
-
+    console.log(ClientData)
     async function sendForm(){
-        console.log(form)
         const body = {
             ...form,
             clientId: ClientData.id
         }
+        console.log(body)
         const result = await api.CreateAddress(body, userData.token)
-        setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={result}/>)
+        setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={result.data}/>)
     }
 
     return (
