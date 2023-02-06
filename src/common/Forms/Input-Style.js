@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Input = styled.input`
     
@@ -29,5 +29,5 @@ const Input = styled.input`
     :focus {
         border-bottom: 0.4vh #0070a1 solid;
     }
-`
-export default Input
+`;
+export default Input;

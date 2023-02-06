@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import SecondOptions from '../../../components/Order/secondOptions';
 
 export default function Order() {
-
-  const [show, setShow] = useState(undefined)
+  const [show, setShow] = useState(undefined);
 
   return (
     <Container>
@@ -13,14 +12,14 @@ export default function Order() {
         <h1>Pedido</h1>
 
         {show !== undefined ? ( show ):
-        (
-          <ContainerOption>
+          (
+            <ContainerOption>
 
-            <Option onClick={ () => setShow(<SecondOptions setShow={setShow}/>)}>Novo Pedido</Option>
-            <Option onClick={ () => setShow(undefined)}>Ver todos os pedidos</Option>
+              <Option onClick={ () => setShow(<SecondOptions setShow={setShow}/>)}>Novo Pedido</Option>
+              <Option onClick={ () => setShow(undefined)}>Ver todos os pedidos</Option>
 
-          </ContainerOption>
-        )}
+            </ContainerOption>
+          )}
       </>
     </Container>
   );
@@ -38,7 +37,7 @@ export const ContainerOption = styled.div`
   margin-top: 4vh;
   
     
-`
+`;
 export const Option = styled.div`
   width: 30vw;
   height: 10vh;
@@ -63,7 +62,7 @@ export const Option = styled.div`
     color: #02567c;
     font-size: 3.1vh;
   }
-`
+`;
 const Container = styled.div`
     background-color: white;
     width: 75vw;

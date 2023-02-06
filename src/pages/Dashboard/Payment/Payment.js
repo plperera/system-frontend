@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default function Payment() {
-
   return (
     <Container>Pagamentos - Em breve...</Container>
   );

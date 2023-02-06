@@ -1,27 +1,26 @@
-import { useState } from "react"
-import styled from "styled-components"
+import { useState } from 'react';
+import styled from 'styled-components';
 
 export function AddressCase() {
+  const [isSelect, setIsSelect] = useState(false);
+  return (
+    <Container onClick={() => setIsSelect(!isSelect)}>
 
-    const [isSelect, setIsSelect] = useState(false)
-    return (
-        <Container onClick={() => setIsSelect(!isSelect)}>
+      <ContainerSelector background={isSelect ? ('#25a8cf'):('white')}>
+        <div></div>
+      </ContainerSelector>
 
-            <ContainerSelector background={isSelect ? ("#25a8cf"):("white")}>
-                <div></div>
-            </ContainerSelector>
+      <ContainerData>
+        <div>37200-000</div>
+        <div>Lavras</div>
+        <div>Rua 1</div>
+        <div>Centro</div>
+        <div>10</div>
+        <div>(35) 99911-2211</div>
+      </ContainerData>
 
-            <ContainerData>
-                <div>37200-000</div>
-                <div>Lavras</div>
-                <div>Rua 1</div>
-                <div>Centro</div>
-                <div>10</div>
-                <div>(35) 99911-2211</div>
-            </ContainerData>
-
-        </Container>
-    )
+    </Container>
+  );
 }
 const Container = styled.div`
     display: grid;
@@ -34,7 +33,7 @@ const Container = styled.div`
 
     background-color: #D1D1D1;
     border-radius: 5px;
-`
+`;
 const ContainerSelector = styled.div`
     width: 4vh;
     height: 4vh;
@@ -55,8 +54,8 @@ const ContainerSelector = styled.div`
 
         background-color: ${props => props.background};;
     }
-`
+`;
 
 const ContainerData = styled.div`
     color: black;
-`
+`;

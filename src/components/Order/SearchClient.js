@@ -8,95 +8,92 @@ import UserContext from '../../context/UserContext';
 import api from '../../services/API';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
-export default function SearchClient({setShow}) {
+export default function SearchClient({ setShow }) {
+  const [form, handleForm] = useCustomForm();
+  //const [refresh, setRefresh] = useState(false)
+  const [clients, setClients] = useState(false);
+  const [search, setSearch] = useState(false);
 
-    const [form, handleForm] = useCustomForm()
-    //const [refresh, setRefresh] = useState(false)
-    const [clients, setClients] = useState(false)
-    const [search, setSearch] = useState(false)
+  const clientPerTable = 7;
+  const [limit, setLimit] = useState(clientPerTable);
+  const { userData } = useContext(UserContext);
 
-    const clientPerTable = 7
-    const [limit, setLimit] = useState(clientPerTable)
-    const { userData } = useContext(UserContext);
-    
-
-    async function findAllClients(){
-        try {
-            const result = await api.GetAllClients(userData.token)
-            setClients(result.data)
-            setSearch(result.data)
-
-        } catch (error) {
-            console.log(error)
-        }
+  async function findAllClients() {
+    try {
+      const result = await api.GetAllClients(userData.token);
+      setClients(result.data);
+      setSearch(result.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
+  }
 
-    useEffect(() => {
-        
-        findAllClients()
+  useEffect(() => {
+    findAllClients();
     // eslint-disable-next-line
     }, [])
 
-    function LimitByArrow(type){
-        if(type === "<" && limit > clientPerTable){
-            setLimit(limit - clientPerTable)
-        } else  if (clients.length - 1 > limit && type === ">"){
-            setLimit(limit + clientPerTable)
-        }
+  function LimitByArrow(type) {
+    if(type === '<' && limit > clientPerTable) {
+      setLimit(limit - clientPerTable);
+    } else  if (clients.length - 1 > limit && type === '>') {
+      setLimit(limit + clientPerTable);
     }
-    function sendForm(){
-        // eslint-disable-next-line
+  }
+  function sendForm() {
+    // eslint-disable-next-line
         setSearch(clients.filter(e => {
-            if( e.name.toLowerCase().includes(form.search.toLowerCase()) 
+      if( e.name.toLowerCase().includes(form.search.toLowerCase()) 
                 || e.CPForCNPJ.toLowerCase().includes(form.search.toLowerCase()) 
                 || e.mainNumber.toLowerCase().includes(form.search.toLowerCase())
                 || e.email.toLowerCase().includes(form.search.toLowerCase())
-            ) return true
-        }))
-    }
+      ) return true;
+    }));
+  }
 
-    return (
+  return (
 
-        <Container>
-            <ContainerTitle>
-                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Qual o Nome ou CPF do Cliente ?</h1>
-                <div onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Clique aqui para voltar</div>
-            </ContainerTitle>
+    <Container>
+      <ContainerTitle>
+        <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Qual o Nome ou CPF do Cliente ?</h1>
+        <div onClick={() => setShow(<SecondOptions setShow={setShow}/>)}>Clique aqui para voltar</div>
+      </ContainerTitle>
 
-            <ContainerForms>
+      <ContainerForms>
 
-                <Input placeholder='Qual o Nome ou CPF do Cliente ?' name='search' onChange={handleForm} value={form.search}></Input>
-                <ButtonStyle onClick={ () => sendForm()}>BUSCAR</ButtonStyle>
+        <Input placeholder='Qual o Nome ou CPF do Cliente ?' name='search' onChange={handleForm} value={form.search}></Input>
+        <ButtonStyle onClick={ () => sendForm()}>BUSCAR</ButtonStyle>
             
-            </ContainerForms>    
+      </ContainerForms>    
 
-            <ContainerTable>
-                {search ? (
-                    <>  
-                        <ClientTableLine i={"#"}/>
-                        {// eslint-disable-next-line
+      <ContainerTable>
+        {search ? (
+          <>  
+            <ClientTableLine i={'#'}/>
+            {// eslint-disable-next-line
                         search.map((e,i) => {
-                            if (i <= limit && i>= limit - clientPerTable){
-                                return(
-                                    <>
-                                        <ClientTableLine i={i} body={e} setShow={setShow}/>
-                                    </>
-                                )
-                            }
-                        })}
-                        <ContainerArrow>
-                            <div onClick={() => LimitByArrow("<")}><FaArrowLeft/></div>
-                            <Count>{(limit / clientPerTable)}</Count>
-                            <div onClick={() => LimitByArrow(">")}><FaArrowRight/></div>
-                        </ContainerArrow>
-                            
+                if (i <= limit && i>= limit - clientPerTable) {
+                  return(
+                    <>
+                      <ClientTableLine i={i} body={e} setShow={setShow}/>
                     </>
-                ):(<>Carregando...</>)}
-            </ContainerTable> 
+                  );
+                }
+              })}
+            <ContainerArrow>
+              <div onClick={() => LimitByArrow('<')}><FaArrowLeft/></div>
+              <Count>{(limit / clientPerTable)}</Count>
+              <div onClick={() => LimitByArrow('>')}><FaArrowRight/></div>
+            </ContainerArrow>
+                            
+          </>
+        ):(<>Carregando...</>)}
+      </ContainerTable> 
 
-        </Container>
+    </Container>
         
-    );
+  );
 }
 
 const Container = styled.div`
@@ -127,7 +124,7 @@ const ContainerForms = styled.form`
   position:relative;
 
   color: #171717;
-`
+`;
 const Input = styled.input`
     
     height: 6vh;
@@ -154,7 +151,7 @@ const Input = styled.input`
     :focus {
         border-bottom: 0.4vh #0070a1 solid;
     }
-`
+`;
 const ButtonStyle = styled.div`
 
     display: flex;
@@ -176,10 +173,10 @@ const ButtonStyle = styled.div`
     font-weight: 700;
 
     background-color: #0c7ead;
-`
+`;
 const ContainerTable = styled.div`
     margin-top: 0vh;
-`
+`;
 const ContainerArrow = styled.div`
 
     display: flex;
@@ -201,10 +198,10 @@ const ContainerArrow = styled.div`
         margin-left: 1vw;
         cursor: pointer;
     }
-`
+`;
 const Count = styled.div`
     width: 4vw !important;
     background-color: #D6D6D6 !important;
     color: #171717 !important;
     cursor: default !important;
-`
+`;

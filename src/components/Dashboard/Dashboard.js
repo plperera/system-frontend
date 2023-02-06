@@ -6,7 +6,6 @@ import { BsCashCoin, BsArchive } from 'react-icons/bs';
 import { MdListAlt } from 'react-icons/md';
 
 export default function NavigationBar() {
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,32 +15,32 @@ export default function NavigationBar() {
 
   return (
     <Container>
-        <UserInfo></UserInfo>
+      <UserInfo></UserInfo>
 
-        <ItemContainer active={isActive('/dashboard/pedido')} onClick={() => navigate('/dashboard/pedido')}>
-            <span>Pedido</span>
-            <div><AiOutlineShoppingCart /></div>
-        </ItemContainer>
+      <ItemContainer active={isActive('/dashboard/pedido')} onClick={() => navigate('/dashboard/pedido')}>
+        <span>Pedido</span>
+        <div><AiOutlineShoppingCart /></div>
+      </ItemContainer>
 
-        <ItemContainer active={isActive('/dashboard/produtos')} onClick={() => navigate('/dashboard/produtos')}>
-            <span>Produtos</span>
-            <div><MdListAlt /></div>
-        </ItemContainer>
+      <ItemContainer active={isActive('/dashboard/produtos')} onClick={() => navigate('/dashboard/produtos')}>
+        <span>Produtos</span>
+        <div><MdListAlt /></div>
+      </ItemContainer>
 
-        <ItemContainer active={isActive('/dashboard/estoque')} onClick={() => navigate('/dashboard/estoque')}>
-            <span>Estoque</span>
-            <div><BsArchive /></div>
-        </ItemContainer>
+      <ItemContainer active={isActive('/dashboard/estoque')} onClick={() => navigate('/dashboard/estoque')}>
+        <span>Estoque</span>
+        <div><BsArchive /></div>
+      </ItemContainer>
 
-        <ItemContainer active={isActive('/dashboard/pagamento')} onClick={() => navigate('/dashboard/pagamento')}>
-            <span>Pagamento</span>
-            <div><BsCashCoin /></div>
-        </ItemContainer>
+      <ItemContainer active={isActive('/dashboard/pagamento')} onClick={() => navigate('/dashboard/pagamento')}>
+        <span>Pagamento</span>
+        <div><BsCashCoin /></div>
+      </ItemContainer>
 
-        <ItemContainer active={isActive('/dashboard/entrega')} onClick={() => navigate('/dashboard/entrega')}>
-            <span>Entrega</span>
-            <div><TbTruckDelivery /></div>
-        </ItemContainer>
+      <ItemContainer active={isActive('/dashboard/entrega')} onClick={() => navigate('/dashboard/entrega')}>
+        <span>Entrega</span>
+        <div><TbTruckDelivery /></div>
+      </ItemContainer>
       
     </Container>
   );
@@ -94,7 +93,7 @@ const ItemContainer = styled.div`
         padding-left: 1vw;
     }
     
-`
+`;
 const UserInfo = styled.div`
    margin-top: 10vh;
-`
+`;

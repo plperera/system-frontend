@@ -4,17 +4,16 @@ import { Outlet } from 'react-router-dom';
 import NavigationBar from '../../components/Dashboard/Dashboard';
 
 export default function Dashboard() {
-
   return (
-        <Container>
+    <Container>
             
-            <NavigationBar/>
+      <NavigationBar/>
             
-            <PageContainer>
-              <Outlet />
-            </PageContainer>
+      <PageContainer>
+        <Outlet />
+      </PageContainer>
 
-        </Container>
+    </Container>
   );
 }
 
@@ -38,4 +37,4 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-`
+`;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default function Delivery() {
-
   return (
     <Container>Entregas - Em breve...</Container>
   );

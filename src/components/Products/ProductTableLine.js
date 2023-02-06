@@ -1,64 +1,62 @@
-import { useState } from "react"
-import styled from "styled-components"
+import { useState } from 'react';
+import styled from 'styled-components';
 import dayjs from 'dayjs';
 
-export default function ProductTableLine({body, i, setShow}) {
+export default function ProductTableLine({ body, i, setShow }) {
+  function Select() {
+  }
 
-    function Select(){
-        console.log(body)
-    }
-
-    const [display, setDisplay] = useState("none")
+  const [display, setDisplay] = useState('none');
     
-    return(
+  return(
+    <>
+      {(i === '#')?(
         <>
-            {(i === '#')?(
-                <>
-                    <Container background={("#0c7ead")} 
-                    backgroundHover={"#0c7ead"} 
-                    color={"white"} 
-                    bold={"400"}
-                    >
-                        <div>COD</div>
-                        <div>Nome</div>
-                        <div>Preço</div>
+          <Container background={('#0c7ead')} 
+            backgroundHover={'#0c7ead'} 
+            color={'white'} 
+            bold={'400'}
+          >
+            <div>COD</div>
+            <div>Nome</div>
+            <div>Preço</div>
 
-                        <ContainerSize onMouseEnter={() => { setDisplay("X")}} onMouseLeave={() => { setDisplay("none")}}>X</ContainerSize>
-                        <SubContainerX opacity={display === "X" ? ("1"):("0")}>Altura</SubContainerX>
+            <ContainerSize onMouseEnter={() => { setDisplay('X');}} onMouseLeave={() => { setDisplay('none');}}>X</ContainerSize>
+            <SubContainerX opacity={display === 'X' ? ('1'):('0')}>Altura</SubContainerX>
 
-                        <ContainerSize onMouseEnter={() => { setDisplay("Y")}} onMouseLeave={() => { setDisplay("none")}}>Y</ContainerSize>
-                        <SubContainerY opacity={display === "Y" ? ("1"):("0")}>Largura</SubContainerY>
+            <ContainerSize onMouseEnter={() => { setDisplay('Y');}} onMouseLeave={() => { setDisplay('none');}}>Y</ContainerSize>
+            <SubContainerY opacity={display === 'Y' ? ('1'):('0')}>Largura</SubContainerY>
 
-                        <ContainerSize onMouseEnter={() => { setDisplay("Z")}} onMouseLeave={() => { setDisplay("none")}}>Z</ContainerSize>
-                        <SubContainerZ opacity={display === "Z" ? ("1"):("0")}>Profundidade</SubContainerZ>
+            <ContainerSize onMouseEnter={() => { setDisplay('Z');}} onMouseLeave={() => { setDisplay('none');}}>Z</ContainerSize>
+            <SubContainerZ opacity={display === 'Z' ? ('1'):('0')}>Profundidade</SubContainerZ>
 
-                        <div>Ultima Atualização</div>
-                        <div>Criado em</div>
-                    </Container>
-                </>
-                ):(
-                <>
-                    <Container 
-                    key={i}
-                    background={(i % 2 === 0)?("#f5f5f5"):("#f5f5f53b")} 
-                    backgroundHover={(i % 2 === 0)?("#30507838"):("#30507829")} 
-                    color={"#171717"} 
-                    bold={"400"}
-                    onClick={() => Select()}
-                    >
-                        <ContainerCOD>{body.COD}</ContainerCOD>
-                        <ContainerName>{body.name}</ContainerName>
-                        <ContainerPrice>R$ {(body.defaultPrice / 100).toFixed(2).replace(".", ",")}</ContainerPrice>
-                        <div>{body.height}</div>
-                        <div>{body.width}</div>
-                        <div>{body.depth}</div>
-                        <div style={{"fontSize": "18px"}}>{dayjs(body.updatedAt).locale('pt-br').format('HH:mm - DD/MM/YYYY')}</div>
-                        <div style={{"fontSize": "18px"}}>{dayjs(body.createdAt).locale('pt-br').format('HH:mm - DD/MM/YYYY')}</div>
-                    </Container>
-                </>
-            )}
+            <div>Ultima Atualização</div>
+            <div>Criado em</div>
+          </Container>
         </>
-    )
+      ):(
+        <>
+          <Container 
+            key={i}
+            background={(i % 2 === 0)?('#f5f5f5'):('#f5f5f53b')} 
+            backgroundHover={(i % 2 === 0)?('#30507838'):('#30507829')} 
+            color={'#171717'} 
+            bold={'400'}
+            onClick={() => Select()}
+          >
+            <ContainerCOD>{body.COD}</ContainerCOD>
+            <ContainerName>{body.name}</ContainerName>
+            <ContainerPrice>R$ {(body.defaultPrice / 100).toFixed(2).replace('.', ',')}</ContainerPrice>
+            <div>{body.height}</div>
+            <div>{body.width}</div>
+            <div>{body.depth}</div>
+            <div style={{ 'fontSize': '18px' }}>{dayjs(body.updatedAt).locale('pt-br').format('HH:mm - DD/MM/YYYY')}</div>
+            <div style={{ 'fontSize': '18px' }}>{dayjs(body.createdAt).locale('pt-br').format('HH:mm - DD/MM/YYYY')}</div>
+          </Container>
+        </>
+      )}
+    </>
+  );
 }
 const Container = styled.div`
     display:grid;
@@ -84,22 +82,22 @@ const Container = styled.div`
         border: 0.5px solid #ababab;
         font-size: 1.7vh;
     }
-`
+`;
 const ContainerCOD = styled.div`
     justify-content: start !important;
     padding-left: 16%;
-`
+`;
 const ContainerName = styled.div`
     justify-content: start !important;
     padding-left: 8%;
-`
+`;
 const ContainerPrice = styled.div`
     justify-content: start !important;
     padding-left: 25%;
-`
+`;
 const ContainerSize = styled.div`
     text-decoration: underline; 
-`
+`;
 const SubContainerX= styled.div`
     opacity: ${props => props.opacity};
     position: absolute;
@@ -113,7 +111,7 @@ const SubContainerX= styled.div`
     border: none !important;
     left: 52.4vw;
     top: 18.2vh;
-`
+`;
 
 const SubContainerY= styled.div`
     opacity: ${props => props.opacity};
@@ -128,7 +126,7 @@ const SubContainerY= styled.div`
     border: none !important;
     left: 57.25vw;
     top: 18.2vh;
-`
+`;
 
 const SubContainerZ= styled.div`
     opacity: ${props => props.opacity};
@@ -143,4 +141,4 @@ const SubContainerZ= styled.div`
     font-size: 1.8vh !important;
     left: 60.8vw;
     top: 18.2vh;
-`
+`;

@@ -4,48 +4,46 @@ import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
 import api from '../../services/API';
 
-export default function NewProduct({setShow}) {
-
-  const [form, handleForm, setForm] = useCustomForm()
+export default function NewProduct({ setShow }) {
+  const [form, handleForm, setForm] = useCustomForm();
   const { userData } = useContext(UserContext);
 
-  async function sendForm(){
+  async function sendForm() {
     try {
-      form.defaultPrice = Number(form.defaultPrice)
-      const result = await api.CreateProduct(form, userData.token)
-      console.log(result)
-      setForm({})
-
+      form.defaultPrice = Number(form.defaultPrice);
+      await api.CreateProduct(form, userData.token);
+      setForm({});
     } catch (error) {
-      console.log(error)
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
  
   return (
     <Container>
         
-        <ContainerTitle>
-          <h1>Preencha os dados abaixo</h1>
-          <div onClick={() => setShow(undefined)}>Clique aqui para voltar</div>
-        </ContainerTitle>
+      <ContainerTitle>
+        <h1>Preencha os dados abaixo</h1>
+        <div onClick={() => setShow(undefined)}>Clique aqui para voltar</div>
+      </ContainerTitle>
 
-        <ContainerForms>
+      <ContainerForms>
 
-          <div>
-            <Input placeholder='COD' name='COD' onChange={handleForm} value={form.COD}></Input>
-            <Input placeholder='Descrição' name='name' onChange={handleForm} value={form.name}></Input>
-            <Input placeholder='Preço' name='defaultPrice' onChange={handleForm} value={form.defaultPrice}></Input>
-          </div>
+        <div>
+          <Input placeholder='COD' name='COD' onChange={handleForm} value={form.COD}></Input>
+          <Input placeholder='Descrição' name='name' onChange={handleForm} value={form.name}></Input>
+          <Input placeholder='Preço' name='defaultPrice' onChange={handleForm} value={form.defaultPrice}></Input>
+        </div>
 
-          <div>
-            <Input placeholder='Altura' name='height' onChange={handleForm} value={form.height}></Input>
-            <Input placeholder='Largura' name='width' onChange={handleForm} value={form.width}></Input>
-            <Input placeholder='Profundidade' name='depth' onChange={handleForm} value={form.depth}></Input>
-          </div>
+        <div>
+          <Input placeholder='Altura' name='height' onChange={handleForm} value={form.height}></Input>
+          <Input placeholder='Largura' name='width' onChange={handleForm} value={form.width}></Input>
+          <Input placeholder='Profundidade' name='depth' onChange={handleForm} value={form.depth}></Input>
+        </div>
         
-        </ContainerForms>
+      </ContainerForms>
 
-        <ButtonStyle onClick={() => sendForm()}>Cadastrar</ButtonStyle>
+      <ButtonStyle onClick={() => sendForm()}>Cadastrar</ButtonStyle>
 
     </Container>
   );
@@ -69,7 +67,7 @@ export const ContainerTitle = styled.div`
 
     cursor: pointer;
   }
-`
+`;
 export const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -111,7 +109,7 @@ const ContainerForms = styled.form`
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2vw;
   }
-`
+`;
 const Input = styled.input`
     
     height: 6vh;
@@ -139,7 +137,7 @@ const Input = styled.input`
     :focus {
         border-bottom: 0.4vh #0070a1 solid;
     }
-`
+`;
 const ButtonStyle = styled.div`
 
   display: flex;
@@ -159,4 +157,4 @@ const ButtonStyle = styled.div`
   background-color: #0c7ead;
 
   margin-top: 40px;
-`
+`;

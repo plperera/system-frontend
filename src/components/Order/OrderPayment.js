@@ -29,10 +29,10 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
     };
     if (body.itens.length > 2) {
       try {
-        console.log(body);
-        const result = await api.CreateOrder(body, userData.token);
+        await api.CreateOrder(body, userData.token);
         setShow(<EndPointOrder setShow={setShow}/>);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     }

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export default function PaymentInput({ handleForm, form, item, payments, setForm }) {
   return(
     <Container>
-      {/* <Input placeholder='COD' name={'COD'+item}></Input>
-      <Input placeholder='Descrição' name={'name'+item}></Input> */}
+      <Input placeholder='COD' name={'COD'+item}></Input>
+      <Input placeholder='Descrição' name={'name'+item}></Input>
     </Container>
   );
 }

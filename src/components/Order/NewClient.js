@@ -22,6 +22,7 @@ export default function NewClient({ setShow }) {
       const result = await api.CreateClient(body, userData.token);
       setShow(<NewAddress setShow={setShow} ClientData={result.data}/>);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error); 
     }
   }

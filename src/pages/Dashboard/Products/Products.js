@@ -4,8 +4,7 @@ import AllProducts from '../../../components/Products/AllProducts';
 import NewProduct from '../../../components/Products/NewProduct';
 
 export default function Produts() {
-
-  const [show, setShow] = useState(undefined)
+  const [show, setShow] = useState(undefined);
 
   return (
     <Container>
@@ -13,14 +12,14 @@ export default function Produts() {
         <h1>Produtos</h1>
 
         {show !== undefined ? ( show ):
-        (
-          <ContainerOption>
+          (
+            <ContainerOption>
 
-            <Option onClick={ () => setShow(<NewProduct setShow={setShow}/>)}>Novo Produto</Option>
-            <Option onClick={ () => setShow(<AllProducts setShow={setShow}/>)}>Ver todos os Produtos</Option>
+              <Option onClick={ () => setShow(<NewProduct setShow={setShow}/>)}>Novo Produto</Option>
+              <Option onClick={ () => setShow(<AllProducts setShow={setShow}/>)}>Ver todos os Produtos</Option>
 
-          </ContainerOption>
-        )}
+            </ContainerOption>
+          )}
       </>
     </Container>
   );
@@ -36,7 +35,7 @@ export const ContainerOption = styled.div`
     height: 25vh;
 
     margin-top: 4vh;
-`
+`;
 export const Option = styled.div`
   width: 30vw;
   height: 10vh;
@@ -61,7 +60,7 @@ export const Option = styled.div`
     color: #02567c;
     font-size: 3.1vh;
   }
-`
+`;
 const Container = styled.div`
     background-color: white;
     width: 75vw;
