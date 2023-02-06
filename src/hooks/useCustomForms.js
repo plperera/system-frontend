@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-function useCustomForm() {
-  const [form, setForm] = useState({});
+function useCustomForm(initialValue) {
+  const [form, setForm] = useState(initialValue || {});
 
   function handleForm({ target: { value, name } }) {
     setForm({ ...form, [name]: value });

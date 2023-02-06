@@ -19,6 +19,8 @@ export default function OrderResume({ form, setForm, itemArray, products, format
   useEffect(() => {
     setForm({
       ...form, 
+      ['COD' + 999]: 'Frete',
+      ['COD' + 888]: 'DESC',
       ['id' + 999]: (products?.filter(e => e.COD === 'Frete'))[0].id,
       ['id' + 888]: (products?.filter(e => e.COD === 'DESC'))[0].id,
       ['itemAmount' + 999]: 1,

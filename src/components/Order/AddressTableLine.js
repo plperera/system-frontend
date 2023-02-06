@@ -1,52 +1,51 @@
-import styled from "styled-components"
-import NewOrder from "./NewOrder"
+import styled from 'styled-components';
+import NewOrder from './NewOrder';
 
-export default function AddressTableLine({body, i, setShow, ClientData}) {
-
-    function Select(){
-        setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={body}/>)
-    }
+export default function AddressTableLine({ body, i, setShow, ClientData }) {
+  function Select() {
+    setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={body}/>);
+  }
     
-    return(
+  return(
+    <>
+      {(i === '#')?(
         <>
-            {(i === '#')?(
-                <>
-                    <Container background={("#0c7ead")} 
-                    backgroundHover={"#0c7ead"} 
-                    color={"white"} 
-                    bold={"700"}>
+          <Container background={('#0c7ead')} 
+            backgroundHover={'#0c7ead'} 
+            color={'white'} 
+            bold={'700'}>
 
-                        <div>#</div>
-                        <div>CEP</div>
-                        <div>Cidade</div>
-                        <div>Rua</div>
-                        <div>Bairro</div>
-                        <div>Numero</div>
-                        <div>Telefone</div>
+            <div>#</div>
+            <div>CEP</div>
+            <div>Cidade</div>
+            <div>Rua</div>
+            <div>Bairro</div>
+            <div>Numero</div>
+            <div>Telefone</div>
 
-                    </Container>
-                </>
-                ):(
-                <>
-                    <Container 
-                    background={(i % 2 === 0)?("#f5f5f5"):("#f5f5f53b")} 
-                    backgroundHover={(i % 2 === 0)?("#30507838"):("#30507829")} 
-                    color={"#171717"} 
-                    bold={"400"}
-                    onClick={() => Select()}
-                    >
-                        <div>{i + 1}</div>
-                        <div>{body.CEP}</div>
-                        <div>{body.cidade}</div>
-                        <div>{body.rua}</div>
-                        <div>{body.bairro}</div>
-                        <div>{body.numero}</div>
-                        <div>{body.telefone}</div>
-                    </Container>
-                </>
-            )}
+          </Container>
         </>
-    )
+      ):(
+        <>
+          <Container 
+            background={(i % 2 === 0)?('#f5f5f5'):('#f5f5f53b')} 
+            backgroundHover={(i % 2 === 0)?('#30507838'):('#30507829')} 
+            color={'#171717'} 
+            bold={'400'}
+            onClick={() => Select()}
+          >
+            <div>{i + 1}</div>
+            <div>{body.CEP}</div>
+            <div>{body.cidade}</div>
+            <div>{body.rua}</div>
+            <div>{body.bairro}</div>
+            <div>{body.numero}</div>
+            <div>{body.telefone}</div>
+          </Container>
+        </>
+      )}
+    </>
+  );
 }
 
 const Container = styled.div`
@@ -72,4 +71,4 @@ const Container = styled.div`
 
         border: 0.5px solid #ababab;
     }
-`
+`;

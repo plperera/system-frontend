@@ -10,16 +10,17 @@ import UserContext from '../../context/UserContext';
 import api from '../../services/API';
 import OrderPayment from './OrderPayment';
 
-export default function NewOrder({ setShow, ClientData, AddressData }) {
-  const [form, handleForm, setForm] = useCustomForm();
-  const [itemArray, setItemArray] = useState([1]);
+export default function NewOrder({ setShow, ClientData, AddressData, oldForm, oldItemArray }) {
+  const [form, handleForm, setForm] = useCustomForm(oldForm);
+  const [itemArray, setItemArray] = useState( oldItemArray || [1]);
   const [products, setProducts] = useState(false);
   const { userData } = useContext(UserContext);
-
   function sendForm() {
+    // eslint-disable-next-line array-callback-return
     const itens = itemArray.map( item => {
       if(form['id' + item]!== undefined && form['itemAmount' + item] !== undefined && form['itemPrice' + item] !== undefined) {
         return {
+          COD: form['COD' + item],
           productId: form['id' + item],
           itemAmount: form['itemAmount' + item],
           itemPrice: form['itemPrice' + item]
@@ -28,11 +29,13 @@ export default function NewOrder({ setShow, ClientData, AddressData }) {
     }).filter(e => e !== undefined);
     itens.push(
       {
+        COD: form['COD' + 999],
         productId: form['id' + 999],
         itemAmount: form['itemAmount' + 999],
         itemPrice: form['itemPrice' + 999] || 0
       },
       {
+        COD: form['COD' + 888],
         productId: form['id' + 888],
         itemAmount: form['itemAmount' + 888],
         itemPrice: form['itemPrice' + 888] || 0
@@ -45,9 +48,7 @@ export default function NewOrder({ setShow, ClientData, AddressData }) {
       enrollmentId: AddressData.id
     };
     if (body.itens.length > 2) {
-      console.log(body);
-      console.log(body.itens);
-      setShow(<OrderPayment setShow={setShow} OrderData={body} ClientData={ClientData} AddressData={AddressData}/>);
+      setShow(<OrderPayment setShow={setShow} OrderData={body} ClientData={ClientData} AddressData={AddressData} oldForm={form} oldItemArray={itemArray}/>);
     }
   }
   function newItemLine() {
@@ -72,7 +73,7 @@ export default function NewOrder({ setShow, ClientData, AddressData }) {
       let decimal = output[decimalIndex] === ',' ? '.' : output[decimalIndex];
       output = output.substring(0, decimalIndex) + decimal + output.substring(decimalIndex + 1, decimalIndex + 3)?.replace(/[.,]/g, '');
     }
-    return Number(output) || '';
+    return (output) || '';
   }
 
   useEffect(() => {
