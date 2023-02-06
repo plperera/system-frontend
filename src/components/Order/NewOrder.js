@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useCustomForm } from '../../hooks/useCustomForms';
+import { ContainerTitle } from '../Products/NewProduct';
 import EndPointOrder from './EndPointOrder';
 import OrderInput from './OrderInput';
+import ThirdOptions from './thirdOption';
+import { BiAddToQueue } from 'react-icons/bi';
+import OrderResume from './OrderResume';
 
 
-
-export default function NewOrder({setShow}) {
+export default function NewOrder({setShow, ClientData, AddressData}) {
 
   const [form, handleForm] = useCustomForm()
   const [itemArray, setItemArray] = useState([1])
@@ -24,8 +27,8 @@ export default function NewOrder({setShow}) {
       setShow(<EndPointOrder setShow={setShow}/>)
     }
     function newItemLine(){
-      if(itemArray[itemArray.length - 1] === 8){
-        console.log("7 ta bom ne ?")
+      if(itemArray[itemArray.length - 1] === 9){
+        console.log("8 ta bom ne ?")
       } else {
         setItemArray([...itemArray, (itemArray.length + 2)])
       }
@@ -34,78 +37,124 @@ export default function NewOrder({setShow}) {
     return (
 
         <Container>
-            <h1>Preencha os dados abaixo para fazer o pedido</h1>
+            <ContainerTitle>
+                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para fazer o pedido</h1>
+                <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+            </ContainerTitle>
 
-            <ContainerForms>
+            <ContainerBody>
+              <ContainerForms>
 
-              {itemArray.map(e => <OrderInput handleForm={handleForm} form={form} item={e}/>)}
+                {itemArray.map(e => <OrderInput handleForm={handleForm} form={form} item={e}/>)}
+                <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
+              
+              </ContainerForms>
+
+              <ContainerResume>
+                <OrderResume form={form} itemArray={itemArray} handleForm={handleForm}/>
+              </ContainerResume>
+            </ContainerBody>
             
-            </ContainerForms>
             
             <ContainerButton>
-                <ButtonStyle onClick={() => newItemLine()}>mais linha ae</ButtonStyle>
-                <ButtonStyle onClick={() => sendForm()}>Cadastrar</ButtonStyle>
+                <div onClick={() => sendForm()}>Cadastrar</div>
             </ContainerButton>
             
         </Container>
         
     );
 }
-
+const ContainerBody = styled.div`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 70% 30%;
+`
+const ContainerResume = styled.div`
+  width: 100%;
+  height: 55vh;
+`
 const Container = styled.div`
-    width: 100%;
-    height: 100%;
-    margin-right: 5vw;  
+  width: 100%;
+  height: 100%;
+  margin-right: 5vw;  
 
-    border-radius: 5px;
+  border-radius: 5px;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    color: #171717;
-    h1 {
-      margin-top:20px;
-      font-size: 22px !important;
-      font-weight:400;
+  color: #171717;
+  h1 {
+    margin-top:20px;
+    font-size: 22px !important;
+    font-weight:400;
     }
 `;
 const ContainerForms = styled.div`
-  width: 80%;
-  height: 100%;
-  margin-right: 5vw;  
+  width: 90%;
+  height: 55vh;
   margin-top: 5vh;
 
   border-radius: 5px;
 
   display: flex !important;
   flex-direction: column;
+  align-items: center;
 
   color: #171717;
 `
 
-const ButtonStyle = styled.div`
+const AddLineButton = styled.div`
 
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #171717;
+  font-size: 1.6em;
 
-  height: 6vh;
-  width: 100%;
-  max-width: 400px;
+  height: 3vh;
+  width: 80%;
   border-radius: 5px;
 
-  font-size: 1.4em;
   letter-spacing: 0.24em;
   font-weight: 700;
 
-  background-color: #0c7ead;
+  background-color: #E6E6E6;
 
-  margin-top: 40px;
+  margin-top: 3vh;
+  cursor: pointer;
 `
 const ContainerButton = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  div {
+    width: 65%;
+    height: 8vh;
+
+    display:flex;
+    align-items:center;
     justify-content: center;
-    width: 80%;
+    padding:0 10px;
+    font-size: 4vh;
+    font-weight: 700;
+    letter-spacing: 0.4vw;
+    
+    border-radius: 10px;
+    margin-right: 3vw;
+    text-align:center;
+    cursor: pointer;
+
+    color: #171717;
+    background-color: white;
+    border: 4px solid #747474;
+
+    :hover{
+      border: 4px solid #02567c;
+      color: #02567c;
+      font-size: 4.3vh;
+    }
+  }
+
 `

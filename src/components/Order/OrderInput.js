@@ -16,11 +16,11 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 0.7fr 3fr 1fr 1fr;
     column-gap: 1vw;
-    margin-bottom: 7vh;
+    margin-bottom: 5vh;
 `
 const Input = styled.input`
     
-    height: 6vh;
+    height: 4.5vh;
     width: 100%;
     text-decoration: none;
     opacity: 1;
