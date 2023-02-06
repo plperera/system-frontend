@@ -8,99 +8,120 @@ import { BiAddToQueue } from 'react-icons/bi';
 import OrderResume from './OrderResume';
 import UserContext from '../../context/UserContext';
 import api from '../../services/API';
+import OrderPayment from './OrderPayment';
 
-
-export default function NewOrder({setShow, ClientData, AddressData}) {
-
-  const [form, handleForm, setForm] = useCustomForm()
-  const [itemArray, setItemArray] = useState([1])
-  const [products, setProducts] = useState(false)
+export default function NewOrder({ setShow, ClientData, AddressData }) {
+  const [form, handleForm, setForm] = useCustomForm();
+  const [itemArray, setItemArray] = useState([1]);
+  const [products, setProducts] = useState(false);
   const { userData } = useContext(UserContext);
-  console.log(userData)
 
-  function sendForm(){
-    const itens = itemArray.map(item => {
-      return {
-        productId: form["id" + item],
-        itemAmount: form["itemAmount" + item],
-        itemPrice: form["itemPrice" + item]
+  function sendForm() {
+    const itens = itemArray.map( item => {
+      if(form['id' + item]!== undefined && form['itemAmount' + item] !== undefined && form['itemPrice' + item] !== undefined) {
+        return {
+          productId: form['id' + item],
+          itemAmount: form['itemAmount' + item],
+          itemPrice: form['itemPrice' + item]
+        };
       }
-    })
+    }).filter(e => e !== undefined);
+    itens.push(
+      {
+        productId: form['id' + 999],
+        itemAmount: form['itemAmount' + 999],
+        itemPrice: form['itemPrice' + 999] || 0
+      },
+      {
+        productId: form['id' + 888],
+        itemAmount: form['itemAmount' + 888],
+        itemPrice: form['itemPrice' + 888] || 0
+      }
+    );
     const body = {
       itens,
       userId: userData.user.id,
       clientId: ClientData.id,
       enrollmentId: AddressData.id
-    }
-    console.log(body)
-    //setShow(<EndPointOrder setShow={setShow}/>)
-  }
-  function newItemLine(){
-    if(itemArray[itemArray.length - 1] === 9){
-      console.log("8 ta bom ne ?")
-    } else {
-      setItemArray([...itemArray, (itemArray.length + 2)])
+    };
+    if (body.itens.length > 2) {
+      console.log(body);
+      console.log(body.itens);
+      setShow(<OrderPayment setShow={setShow} OrderData={body} ClientData={ClientData} AddressData={AddressData}/>);
     }
   }
-
-  async function findAllProducts(){
+  function newItemLine() {
+    if(itemArray[itemArray.length - 1] !== 9) {
+      setItemArray([...itemArray, (itemArray.length + 2)]);
+    }
+  }
+  async function findAllProducts() {
     try {
-      const result = await api.GetAllProducts(userData.token)
-      setProducts(result.data)
+      const result = await api.GetAllProducts(userData.token);
+      setProducts(result.data);
     } catch (error) {
-      console.log(error)
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
+  }
+  function formatarInput(e) {
+    let input = String(e) || '';
+    let output = input?.replace(/[^\d,.]/g, '');
+    let decimalIndex = output?.search(/[.,]/);
+    if (decimalIndex !== -1) {
+      let decimal = output[decimalIndex] === ',' ? '.' : output[decimalIndex];
+      output = output.substring(0, decimalIndex) + decimal + output.substring(decimalIndex + 1, decimalIndex + 3)?.replace(/[.,]/g, '');
+    }
+    return Number(output) || '';
   }
 
   useEffect(() => {
-      
-    findAllProducts()
+    findAllProducts();
   // eslint-disable-next-line
   }, [])
 
-    return (
-        products ? (
-          <>
-            <Container>
-              <ContainerTitle>
-                  <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Preencha os dados abaixo para fazer o pedido</h1>
-                  <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
-              </ContainerTitle>
+  return (
+    products ? (
+      <>
+        <Container>
+          <ContainerTitle>
+            <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Preencha os dados abaixo para fazer o pedido</h1>
+            <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+          </ContainerTitle>
 
-              <ContainerBody>
-                <ContainerForms>
+          <ContainerBody>
+            <ContainerForms>
 
-                  {itemArray.map(e => 
-                    <OrderInput handleForm={handleForm} form={form} item={e} products={products} setForm={setForm}/>
-                  )}
-                  <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
+              {itemArray.map(e => 
+                <OrderInput handleForm={handleForm} form={form} item={e} products={products} setForm={setForm} formatarInput={formatarInput}/>
+              )}
+              <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
                 
-                </ContainerForms>
+            </ContainerForms>
 
-                <ContainerResume>
-                  <OrderResume form={form} itemArray={itemArray} handleForm={handleForm}/>
-                </ContainerResume>
-              </ContainerBody>
+            <ContainerResume>
+              <OrderResume form={form} setForm={setForm} itemArray={itemArray} formatarInput={formatarInput} products={products}/>
+            </ContainerResume>
+          </ContainerBody>
               
+          <ContainerButton>
+            <div onClick={() => sendForm()}>Ir pada o Pagamento</div>
+          </ContainerButton>
               
-              <ContainerButton>
-                  <div onClick={() => sendForm()}>Cadastrar</div>
-              </ContainerButton>
-              
-            </Container>
-          </>
-        ):(<>carregando...</>)        
-    );
+        </Container>
+      </>
+    ):(<>carregando...</>)        
+  );
 }
 const ContainerBody = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: 70% 30%;
-`
+`;
 const ContainerResume = styled.div`
   width: 100%;
   height: 55vh;
-`
+`;
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -130,7 +151,7 @@ const ContainerForms = styled.div`
   align-items: center;
 
   color: #171717;
-`
+`;
 
 const AddLineButton = styled.div`
 
@@ -151,7 +172,7 @@ const AddLineButton = styled.div`
 
   margin-top: 3vh;
   cursor: pointer;
-`
+`;
 const ContainerButton = styled.div`
   display: flex;
   align-items: center;
@@ -165,9 +186,9 @@ const ContainerButton = styled.div`
     align-items:center;
     justify-content: center;
     padding:0 10px;
-    font-size: 4vh;
+    font-size: 3vh;
     font-weight: 700;
-    letter-spacing: 0.4vw;
+    letter-spacing: 0.2vw;
     
     border-radius: 10px;
     margin-right: 3vw;
@@ -181,8 +202,8 @@ const ContainerButton = styled.div`
     :hover{
       border: 4px solid #02567c;
       color: #02567c;
-      font-size: 4.3vh;
+      font-size: 3.3vh;
     }
   }
 
-`
+`;

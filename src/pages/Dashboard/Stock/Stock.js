@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default function Stock() {
-
   return (
     <Container>Controle de estoque - Em breve...</Container>
   );

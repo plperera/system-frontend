@@ -1,14 +1,13 @@
-import { useState } from "react"
+import { useState } from 'react';
 
-function useCustomForm(){
+function useCustomForm() {
+  const [form, setForm] = useState({});
 
-    const [form, setForm] = useState({})
+  function handleForm({ target: { value, name } }) {
+    setForm({ ...form, [name]: value });
+  }
 
-    function handleForm({target: {value, name}}){
-        setForm({...form, [name]: value})
-    }
-
-    return [form, handleForm, setForm]
+  return [form, handleForm, setForm];
 }
 
-export {useCustomForm}
+export { useCustomForm };

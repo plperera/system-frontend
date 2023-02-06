@@ -1,57 +1,81 @@
-import styled from "styled-components"
+import { useEffect } from 'react';
+import styled from 'styled-components';
 
-export default function OrderResume({form, itemArray, handleForm}){
+export default function OrderResume({ form, setForm, itemArray, products, formatarInput }) {
+  function handleFormToFreteAndDesconto({ target: { value, name } }) {
+    if(name === 'Frete') {
+      setForm({
+        ...form, 
+        ['itemPrice' + 999]: value,
+      });
+    } else if (name === 'DESC') {
+      setForm({ 
+        ...form,
+        ['itemPrice' + 888]: value
+      });
+    }
+  }
 
-    return(
-        <Container>
-            <h1>Resumo</h1>
-            <ItensContainer>
+  useEffect(() => {
+    setForm({
+      ...form, 
+      ['id' + 999]: (products?.filter(e => e.COD === 'Frete'))[0].id,
+      ['id' + 888]: (products?.filter(e => e.COD === 'DESC'))[0].id,
+      ['itemAmount' + 999]: 1,
+      ['itemAmount' + 888]: 1
+    });
+  }, []);
 
-                <Item>
-                    <div style={{justifyContent:"center"}}>COD</div>
-                    <div style={{justifyContent:"center"}}>Quantidade</div>
-                    <div style={{justifyContent:"center"}}>Subtotal</div>
-                </Item>
+  return(
+    <Container>
+      <h1>Resumo</h1>
+      <ItensContainer>
 
-                {itemArray.map(e =>
-                    <Item>
-                        <div>{form[`COD${e}`]}</div>
-                        <div style={{justifyContent:"center"}}>{form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')}</div>
-                        <div style={{paddingLeft:"1.3vw"}}>{(form[`itemPrice${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')*form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '') || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </div>
-                    </Item>
-                )}
+        <Item>
+          <div style={{ justifyContent: 'center' }}>COD</div>
+          <div style={{ justifyContent: 'center' }}>Quantidade</div>
+          <div style={{ justifyContent: 'center' }}>Subtotal</div>
+        </Item>
 
-            </ItensContainer>
+        {itemArray.map(e =>
+          <Item>
+            <div>{form[`COD${e}`]}</div>
+            <div style={{ justifyContent: 'center' }}>{formatarInput(form[`itemAmount${e}`])}</div>
+            <div style={{ paddingLeft: '1.3vw' }}>{(formatarInput(form[`itemPrice${e}`])*formatarInput(form[`itemAmount${e}`]) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            </div>
+          </Item>
+        )}
 
-            <SubContainer>
+      </ItensContainer>
 
-                <div>Frete</div>
-                <Input placeholder='Frete' name="frete" onChange={handleForm} value={form.frete?.replace(",",".")?.replace(/[^0-9]/g, '')}></Input>
+      <SubContainer>
 
-                <div>{"Desconto (-)"}</div>
-                <Input placeholder='Desconto' name="desconto" onChange={handleForm} value={form.desconto?.replace(",",".")?.replace(/[^0-9]/g, '')}></Input>
+        <div>Frete</div>
+        <Input placeholder='Frete' name="Frete" onChange={handleFormToFreteAndDesconto} value={formatarInput(form['itemPrice' + 999])}></Input>
 
-                <div>Total</div>
-                <div style={{paddingLeft:"1.3vw"}}>
-                    {
-                        (itemArray.reduce((total, e) => (form[`itemPrice${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '')*form[`itemAmount${e}`]?.replace(",",".")?.replace(/[^0-9]/g, '') || 0) + total, 0)
-                        +Number(form.frete?.replace(",",".")?.replace(/[^0-9]/g, '') || 0)
-                        -Number(form.desconto?.replace(",",".")?.replace(/[^0-9]/g, '') || 0))
-                            .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                    }
-                </div>
-            </SubContainer>
+        <div>{'Desconto (-)'}</div>
+        <Input placeholder='Desconto' name="DESC" onChange={handleFormToFreteAndDesconto} value={formatarInput(form['itemPrice' + 888])}></Input>
+
+        <div>Total</div>
+        <div style={{ paddingLeft: '1.3vw' }}>
+          {
+            (itemArray.reduce((total, e) => (formatarInput(form[`itemPrice${e}`])*formatarInput(form[`itemAmount${e}`]) || 0) + total, 0)
+                +Number(formatarInput(form['itemPrice' + 999]) || 0)
+                -Number(formatarInput(form['itemPrice' + 888]) || 0))
+              .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+          }
+        </div>
+      </SubContainer>
             
-        </Container>
-    )
+    </Container>
+  );
 }
 const ItensContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 1vh;
     margin: 3vh 0;
-`
+`;
 const Item = styled.div`
     display: grid;
     grid-template-columns: 2fr 2fr 3fr;
@@ -61,7 +85,7 @@ const Item = styled.div`
         align-items: center;
         justify-content: start;
     }
-`
+`;
 const SubContainer= styled.div`
     display: grid;
     grid-template-columns:4fr 3fr;
@@ -74,13 +98,13 @@ const SubContainer= styled.div`
         align-items: center;
         justify-content: start;
     }
-`
+`;
 const Container = styled.div`
     background-color: #E2E2E2;
     padding: 1px 0vw 1vh 1.3vw;
     margin-top: 7vh;
     border-radius: 5px;
-`
+`;
 const Input = styled.input`
     
   height: 3vh;
@@ -106,4 +130,4 @@ const Input = styled.input`
   :focus {
     border-bottom: 0.2vh #0070a1 solid;
   }
-`
+`;

@@ -10,82 +10,78 @@ import ThirdOptions from './thirdOption';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import AddressTableLine from './AddressTableLine';
 
-export default function SearchAddress({setShow, ClientData}) {
+export default function SearchAddress({ setShow, ClientData }) {
+  //const [refresh, setRefresh] = useState(false)
+  const [address, setAddress] = useState(false);
+  const addressPerTable = 7;
+  const [limit, setLimit] = useState(addressPerTable);
+  const { userData } = useContext(UserContext);
 
-    //const [refresh, setRefresh] = useState(false)
-    const [address, setAddress] = useState(false)
-    const addressPerTable = 7
-    const [limit, setLimit] = useState(addressPerTable)
-    const { userData } = useContext(UserContext);
-    
-
-    async function findAllAddress(){
-        try {
-            const result = await api.GetAllAddressByClientId(userData.token, ClientData.id)
-            console.log(result)
-            setAddress(result.data)
-
-        } catch (error) {
-            console.log(error)
-        }
+  async function findAllAddress() {
+    try {
+      const result = await api.GetAllAddressByClientId(userData.token, ClientData.id);
+      setAddress(result.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
+  }
 
-    useEffect(() => {
-        
-        findAllAddress()
+  useEffect(() => {
+    findAllAddress();
     // eslint-disable-next-line
     }, [])
 
-    function LimitByArrow(type){
-        if(type === "<" && limit > addressPerTable){
-            setLimit(limit - addressPerTable)
-        } else  if (address.length - 1 > limit && type === ">"){
-            setLimit(limit + addressPerTable)
-        }
+  function LimitByArrow(type) {
+    if(type === '<' && limit > addressPerTable) {
+      setLimit(limit - addressPerTable);
+    } else  if (address.length - 1 > limit && type === '>') {
+      setLimit(limit + addressPerTable);
     }
+  }
 
-    return (
+  return (
 
-        <Container>
-            <ContainerTitle>
-                <h1 style={{fontSize:"22px", marginTop: "2vh"}}>Clique para Selecionar um Endereço para entrega</h1>
-                <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
-            </ContainerTitle>
+    <Container>
+      <ContainerTitle>
+        <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Clique para Selecionar um Endereço para entrega</h1>
+        <div onClick={() => setShow(<ThirdOptions setShow={setShow} ClientData={ClientData}/>)}>Clique aqui para voltar</div>
+      </ContainerTitle>
 
-            <ContainerTable>
-                {address ? (
-                    <>  
-                        <AddressTableLine i={"#"}/>
-                        { // eslint-disable-next-line
+      <ContainerTable>
+        {address ? (
+          <>  
+            <AddressTableLine i={'#'}/>
+            { // eslint-disable-next-line
                         address.map((e,i) => {
-                            if (i <= limit && i>= limit - addressPerTable){
-                                return(
-                                    <>
-                                        <AddressTableLine i={i} body={e} setShow={setShow} ClientData={ClientData}/>
-                                    </>
-                                )
-                            }
-                        })}
-                        <ContainerOptions>
-
-                            <ButtonStyled onClick={ () => setShow(<NewAddress setShow={setShow} ClientData={ClientData}/>)}>
-                                Criar novo Endereço
-                            </ButtonStyled>
-
-                            <ContainerArrow>
-                                <div onClick={() => LimitByArrow("<")}><FaArrowLeft/></div>
-                                <Count>{(limit / addressPerTable)}</Count>
-                                <div onClick={() => LimitByArrow(">")}><FaArrowRight/></div>
-                            </ContainerArrow>
-                            
-                        </ContainerOptions>
-                            
+                if (i <= limit && i>= limit - addressPerTable) {
+                  return(
+                    <>
+                      <AddressTableLine i={i} body={e} setShow={setShow} ClientData={ClientData}/>
                     </>
-                ):(<>Carregando...</>)}
-            </ContainerTable>               
-        </Container>
+                  );
+                }
+              })}
+            <ContainerOptions>
+
+              <ButtonStyled onClick={ () => setShow(<NewAddress setShow={setShow} ClientData={ClientData}/>)}>
+                                Criar novo Endereço
+              </ButtonStyled>
+
+              <ContainerArrow>
+                <div onClick={() => LimitByArrow('<')}><FaArrowLeft/></div>
+                <Count>{(limit / addressPerTable)}</Count>
+                <div onClick={() => LimitByArrow('>')}><FaArrowRight/></div>
+              </ContainerArrow>
+                            
+            </ContainerOptions>
+                            
+          </>
+        ):(<>Carregando...</>)}
+      </ContainerTable>               
+    </Container>
         
-    );
+  );
 }
 
 const Container = styled.div`
@@ -129,10 +125,10 @@ const ButtonStyled = styled.div`
     color: #02567c;
     font-size: 2.2vh;
   }
-`
+`;
 const ContainerTable = styled.div`
     margin-top: 5vh;
-`
+`;
 const ContainerArrow = styled.div`
 
     display: flex;
@@ -154,14 +150,14 @@ const ContainerArrow = styled.div`
         margin-left: 1vw;
         cursor: pointer;
     }
-`
+`;
 const Count = styled.div`
     width: 4vw !important;
     background-color: #D6D6D6 !important;
     color: #171717 !important;
     cursor: default !important;
-`
+`;
 const ContainerOptions = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-`
+`;

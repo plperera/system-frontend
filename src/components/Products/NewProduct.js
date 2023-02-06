@@ -14,14 +14,7 @@ export default function NewProduct({setShow}) {
       form.defaultPrice = Number(form.defaultPrice)
       const result = await api.CreateProduct(form, userData.token)
       console.log(result)
-      setForm({
-        COD: '',
-        name: '',
-        defaultPrice: '',
-        height: '',
-        width: '',
-        depth: '',
-      })
+      setForm({})
 
     } catch (error) {
       console.log(error)
