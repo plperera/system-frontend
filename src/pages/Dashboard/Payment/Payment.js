@@ -1,20 +1,88 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
+import SecondOptions from '../../../components/Order/secondOptions';
+import NewPaymentType from '../../../components/Payments/NewPaymentType';
+import SearchPayments from '../../../components/Payments/SearchPayments';
+
 export default function Payment() {
+  const [show, setShow] = useState(undefined);
+
   return (
-    <Container>Pagamentos - Em breve...</Container>
+    <Container>
+      <>
+        <h1>Pagamentos</h1>
+
+        {show !== undefined ? ( show ):
+          (
+            <ContainerOption>
+
+              <Option onClick={ () => setShow(<NewPaymentType setShow={setShow}/>)}>Nova Forma de Pagamento</Option>
+              <Option onClick={ () => setShow(<SearchPayments setShow={setShow}/>)}>Historico de Pagamentos</Option>
+
+            </ContainerOption>
+          )}
+      </>
+    </Container>
   );
 }
+export const ContainerOption = styled.div`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  row-gap: 2vh;
+  justify-content: start;
+  align-items: flex-start;
 
-const Container = styled.div`
-  background-color: white;
-  width: 75vw;
-  height: 90vh;
-  border-radius:5px;
+  padding: 2.5vh 0vw;
+
+  width: 100%;
+  height: 25vh;
+
+  margin-top: 4vh;
   
-  display: flex;
+    
+`;
+export const Option = styled.div`
+  width: 30vw;
+  height: 10vh;
+
+  display:flex;
   align-items:center;
   justify-content: center;
+  padding:0 10px;
+  font-size: 2.9vh;
+  
+  border-radius: 10px;
+  margin-right: 3vw;
+  text-align:center;
+  cursor: pointer;
 
-  font-size:40px;
+  color: #171717;
+  background-color: white;
+  border: 3px solid #747474;
+
+  :hover{
+    border: 3px solid #02567c;
+    color: #02567c;
+    font-size: 3.1vh;
+  }
+`;
+const Container = styled.div`
+    background-color: white;
+    width: 75vw;
+    height: 90vh;
+    border-radius:5px;
+
+    padding: 2.5vh 3vw;
+    
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    h1 {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.1vw;
+    }
 `;

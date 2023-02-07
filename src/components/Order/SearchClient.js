@@ -9,7 +9,7 @@ import api from '../../services/API';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function SearchClient({ setShow }) {
-  const [form, handleForm] = useCustomForm();
+  const [form, handleForm, setForm] = useCustomForm();
   //const [refresh, setRefresh] = useState(false)
   const [clients, setClients] = useState(false);
   const [search, setSearch] = useState(false);
@@ -51,6 +51,12 @@ export default function SearchClient({ setShow }) {
       ) return true;
     }));
   }
+  function enterVerify(e) {
+    if(e.key === 'Enter') {
+      e.preventDefault(); 
+      sendForm();
+    } 
+  }
 
   return (
 
@@ -62,7 +68,7 @@ export default function SearchClient({ setShow }) {
 
       <ContainerForms>
 
-        <Input placeholder='Qual o Nome ou CPF do Cliente ?' name='search' onChange={handleForm} value={form.search}></Input>
+        <Input placeholder='Qual o Nome ou CPF do Cliente ?' name='search' onChange={handleForm} value={form.search} onKeyDown={enterVerify}></Input>
         <ButtonStyle onClick={ () => sendForm()}>BUSCAR</ButtonStyle>
             
       </ContainerForms>    

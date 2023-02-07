@@ -12,9 +12,12 @@ import api from '../../services/API';
 import { useContext } from 'react';
 import UserContext from '../../context/UserContext';
 import EndPointOrder from './EndPointOrder';
+import { useEffect } from 'react';
 
 export default function OrderPayment({ setShow, OrderData, ClientData, AddressData, oldForm, oldItemArray }) {
   const { userData } = useContext(UserContext);
+  const [paymentType, setPaymentType] = useState(false);
+  const [itemArray, setItemArray] = useState([1]);
 
   async function sendForm() {
     const itens = [];
@@ -37,28 +40,28 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
       }
     }
   }
-  /*
+  
   function newItemLine() {
     if(itemArray[itemArray.length - 1] !== 5) {
       setItemArray([...itemArray, (itemArray.length + 2)]);
     }
   }
   
-    async function findAllPayments() {
-        try {
-        const result = await api;
-        setProducts(result.data);
-        } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        }
+  async function findAllPayments() {
+    try {
+      const result = await api;
+      setPaymentType(result.data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
+  }
     
-    useEffect(() => {
-        findAllPayments();
+  useEffect(() => {
+    findAllPayments();
     // eslint-disable-next-line
     }, [])
-    */
+    
   return(
     <Container>
       <InfoContainer>
