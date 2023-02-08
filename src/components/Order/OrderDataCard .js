@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export default function OrderDataCard({ OrderData }) {
+  console.log(OrderData);
   return(
     <OrderDataContainer>
       <OrderList>
@@ -8,7 +9,19 @@ export default function OrderDataCard({ OrderData }) {
         { OrderData.itens.map(e => 
           <div>
             <OrderTitle>{e.COD}</OrderTitle>
-            <OrderItem>{`${Number(e.itemAmount)} x ${Number(e.itemPrice).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`}</OrderItem>  
+            {(e.productId === 25 || e.productId === 26)?(
+              <>
+                <OrderItem>
+                  {`${Number(e.itemAmount)} x ${(Number(e.itemPrice) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`}
+                </OrderItem>
+              </>
+            ):(
+              <>
+                <OrderItem>
+                  {`${Number(e.itemAmount) / 100} x ${(Number(e.itemPrice) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`}
+                </OrderItem>
+              </>
+            )}  
           </div>
         )}
         
@@ -20,11 +33,13 @@ export default function OrderDataCard({ OrderData }) {
           {
             OrderData.itens.reduce((total, e) => {
               if(e.COD === 'DESC') {
-                return total + Number(e.itemAmount) * Number(e.itemPrice) * -1;
+                return total + ((Number(e.itemAmount) * Number(e.itemPrice) * -1) / 100);
+              } if(e.COD === 'Frete') {
+                return total + ((Number(e.itemAmount) * Number(e.itemPrice) * 1) / 100);
               } else {
-                return total + Number(e.itemAmount) * Number(e.itemPrice);
+                return total + (Number(e.itemAmount) * Number(e.itemPrice) / 10000);
               }
-            }, 0)
+            }, 0).toFixed(2)
               .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
           }
         </OrderItem>  

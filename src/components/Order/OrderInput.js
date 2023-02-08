@@ -13,13 +13,17 @@ export default function OrderInput({ handleForm, form, item, products, setForm, 
       ['itemPrice' + item]: result[0]?.defaultPrice / 100 
     });
   }
+  function verifyInput(e) {
+    e.target.value = formatarInput(e.target.value);
+    handleForm(e);
+  }
 
   return(
     <Container>
       <Input placeholder='COD' name={'COD'+item} onChange={addId} value={form['COD' + item]?.toUpperCase()}></Input>
       <Input placeholder='Descrição' name={'name'+item} value={searchProductName(form['COD' + item])}></Input>
-      <Input placeholder='Quantidade' name={'itemAmount'+item} onChange={handleForm} value={formatarInput(form['itemAmount' + item])}></Input>
-      <Input placeholder='Preço' name={'itemPrice'+item} onChange={handleForm} value={formatarInput(form['itemPrice' + item])}></Input>
+      <Input placeholder='Quantidade' name={'itemAmount'+item} onChange={verifyInput} value={formatarInput(form['itemAmount' + item])}></Input>
+      <Input placeholder='Preço' name={'itemPrice'+item} onChange={verifyInput} value={formatarInput(form['itemPrice' + item])}></Input>
     </Container>
   );
 }

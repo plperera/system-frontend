@@ -18,8 +18,41 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
   const { userData } = useContext(UserContext);
   const [paymentType, setPaymentType] = useState(false);
   const [itemArray, setItemArray] = useState([1]);
+  const [form, handleForm, setForm] = useCustomForm();
+
+  const total = (OrderData.itens.reduce((total, e) => {
+    if(e.COD === 'DESC') {
+      return total + ((Number(e.itemAmount) * Number(e.itemPrice) * -1) / 100);
+    } if(e.COD === 'Frete') {
+      return total + ((Number(e.itemAmount) * Number(e.itemPrice) * 1) / 100);
+    } else {
+      return total + (Number(e.itemAmount) * Number(e.itemPrice) / 10000);
+    }
+  }, 0));
 
   async function sendForm() {
+    const newArray = [];
+    itemArray.map(e => {
+      if (form['type'+e] !== undefined && form['value'+e] !== undefined) {
+        newArray.push(
+          {
+            typeId: form['type'+e], 
+            value: form['value'+e]
+          });
+      }
+    });
+    console.log(newArray);
+    
+    const totalPaymentType = newArray.reduce((total, e) => total + Number(e.value), 0);
+
+    console.log(Number(total.toFixed(2)));
+    console.log(totalPaymentType);
+
+    if (Number(Number(total).toFixed(2)) !== Number(totalPaymentType)) {
+      return alert(`A soma total do valor de todas as formas de pagamento deve ser: R$${total.toFixed(2)} (atualmente a soma esta em: R$ ${totalPaymentType.toFixed(2)})`);
+    }
+    
+    /*
     const itens = [];
 
     OrderData.itens.map(e => itens.push({ productId: e.productId, itemAmount: e.itemAmount * 100, itemPrice: e.itemPrice * 100 }));
@@ -39,17 +72,18 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
         console.log(error);
       }
     }
+    */
   }
   
   function newItemLine() {
     if(itemArray[itemArray.length - 1] !== 5) {
-      setItemArray([...itemArray, (itemArray.length + 2)]);
+      setItemArray([...itemArray, (itemArray.length + 1)]);
     }
   }
   
   async function findAllPayments() {
     try {
-      const result = await api;
+      const result = await api.GetAllPaymentsType(userData.token);
       setPaymentType(result.data);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -64,90 +98,109 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
     
   return(
     <Container>
-      <InfoContainer>
-        <div>
-          <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações do Cliente</h1>
-          <ClientDataCard ClientData={ClientData}/>
-        </div>
-        <div>
-          <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações de Entrega</h1>
-          <AddressDataCard AddressData={AddressData}/>
-        </div>
-        <div>
-          <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações do Pedido</h1>
-          <OrderDataCard OrderData={OrderData}/>
-        </div>
+      <SubContainer>
 
-      </InfoContainer>
+        <InfoContainer>
+          <div>
+            <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações do Cliente</h1>
+            <ClientDataCard ClientData={ClientData}/>
+          </div>
+          <div>
+            <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações de Entrega</h1>
+            <AddressDataCard AddressData={AddressData}/>
+          </div>
+          <div>
+            <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Informações do Pedido</h1>
+            <OrderDataCard OrderData={OrderData}/>
+          </div>
+
+        </InfoContainer>
+      
+        <ContainerRight>
+
+          <ContainerTitle>
+            <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Qual a forma de pagamento</h1>
+            <div onClick={() => setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={AddressData} oldForm={oldForm} oldItemArray={oldItemArray}/>)}>Clique aqui para voltar</div>
+          </ContainerTitle>
+
+          <ContainerForms>
+            {paymentType ? (
+              <>
+                {itemArray.map(e => 
+                  <PaymentInput  
+                    handleForm={handleForm} 
+                    form={form} item={e} 
+                    setForm={setForm}
+                    paymentType={paymentType}
+                  />
+                )}
+                <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton>
+              </>
+            ):(<>Carregando...</>)}
     
-      <ContainerRight>
-        <ContainerTitle>
-          <h1 style={{ fontSize: '22px', marginTop: '2vh' }}>Qual a forma de pagamento</h1>
-          <div onClick={() => setShow(<NewOrder setShow={setShow} ClientData={ClientData} AddressData={AddressData} oldForm={oldForm} oldItemArray={oldItemArray}/>)}>Clique aqui para voltar</div>
-        </ContainerTitle>
+          </ContainerForms>
 
-        <ContainerForms>
+        </ContainerRight>
 
-          {/* {itemArray.map(e => 
-            <PaymentInput  handleForm={handleForm} form={form} item={e} setForm={setForm}/>
-          )}
-          <AddLineButton onClick={() => newItemLine()}><BiAddToQueue/></AddLineButton> */}
-          EM BREVE ...
-  
-        </ContainerForms>
-
-      </ContainerRight>
+      </SubContainer>
 
       <ContainerButton>
-        <div onClick={() => sendForm()}>Ir pada o Pagamento</div>
+        <div onClick={() => sendForm()}>Finalizar</div>
       </ContainerButton>
+      
     </Container>
   );
 }
 const Input = styled.input`
     
-    height: 4.5vh;
-    width: 100%;
-    text-decoration: none;
+  height: 4.5vh;
+  width: 100%;
+  text-decoration: none;
+  opacity: 1;
+
+  border: none;
+  border-bottom: 0.4vh #ababab solid;
+
+  font-size: 14px;
+  color: #171717;
+
+  padding-left: 1.6em;
+  padding-right: 0;
+  outline: none;
+  background: #f5f5f5;
+  border-radius: 5px;
+
+  margin-top: 2vh;
+  ::placeholder{
+    color: #9b9b9b;
     opacity: 1;
-
-    border: none;
-    border-bottom: 0.4vh #ababab solid;
-
-    font-size: 14px;
-    color: #171717;
-
-    padding-left: 1.6em;
-    padding-right: 0;
-    outline: none;
-    background: #f5f5f5;
-    border-radius: 5px;
-
-    margin-top: 2vh;
-    ::placeholder{
-        color: #9b9b9b;
-        opacity: 1;
-    }
-    :focus {
-        border-bottom: 0.4vh #0070a1 solid;
-    }
+  }
+  :focus {
+    border-bottom: 0.4vh #02567c solid;
+  }
 `;
+
 const Container = styled.div`
-    width:100%;
-    display: grid;
-    grid-template-columns: 45% 45%;
-    column-gap: 5%;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+`;
+const SubContainer = styled.div`
+  width:100%;
+  display: grid;
+  grid-template-columns: 45% 45%;
+  column-gap: 5%;
 `;
 const ContainerRight = styled.div`
-    width:100%;
+  width:100%;
 `;
 const InfoContainer = styled.div`
-    width:100%;    
+  width:100%;    
 `;
 const ContainerForms = styled.div`
   width: 90%;
   height: 55vh;
-  margin-top: 5vh;
+  margin-top: 2vh;
 
   border-radius: 5px;
 
@@ -174,7 +227,7 @@ const AddLineButton = styled.div`
 
   background-color: #E6E6E6;
 
-  margin-top: 3vh;
+  margin-top: 1.3vh;
   cursor: pointer;
 `;
 const ContainerButton = styled.div`

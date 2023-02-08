@@ -56,15 +56,14 @@ function GetAllAddressByClientId(token, clientId) {
     }
   });
 }
-/*
+
 function GetAllPaymentsType(token) {
-  return axios.get(`${BASE_URL}/paymenttype`, {
+  return axios.get(`${BASE_URL}/payment-type`, {
     headers: {
       Authorization: `Bearer ${token}`,
     }
   });
 }
-*/
 
 const api = {
   CreateLogin,
@@ -75,7 +74,8 @@ const api = {
   GetAllClients,
   CreateAddress,
   GetAllAddressByClientId,
-  CreateOrder
+  CreateOrder,
+  GetAllPaymentsType
 };
 
 export default api;

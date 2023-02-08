@@ -22,8 +22,8 @@ export default function NewOrder({ setShow, ClientData, AddressData, oldForm, ol
         return {
           COD: form['COD' + item],
           productId: form['id' + item],
-          itemAmount: form['itemAmount' + item],
-          itemPrice: form['itemPrice' + item]
+          itemAmount: (form['itemAmount' + item] * 100).toFixed(2),
+          itemPrice: (form['itemPrice' + item] * 100).toFixed(2)
         };
       }
     }).filter(e => e !== undefined);
@@ -32,13 +32,13 @@ export default function NewOrder({ setShow, ClientData, AddressData, oldForm, ol
         COD: form['COD' + 999],
         productId: form['id' + 999],
         itemAmount: form['itemAmount' + 999],
-        itemPrice: form['itemPrice' + 999] || 0
+        itemPrice: form['itemPrice' + 999] * 100 || 0
       },
       {
         COD: form['COD' + 888],
         productId: form['id' + 888],
         itemAmount: form['itemAmount' + 888],
-        itemPrice: form['itemPrice' + 888] || 0
+        itemPrice: form['itemPrice' + 888] * 100 || 0
       }
     );
     const body = {
