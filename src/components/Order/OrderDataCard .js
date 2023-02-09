@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export default function OrderDataCard({ OrderData }) {
-  console.log(OrderData);
   return(
     <OrderDataContainer>
       <OrderList>

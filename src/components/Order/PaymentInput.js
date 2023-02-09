@@ -20,7 +20,6 @@ export default function PaymentInput({ handleForm, form, item, paymentType, setF
     e.target.value = formatarInput(e.target.value);
     handleForm(e);
   }
-  console.log(form);
   
   return(
     <Container>

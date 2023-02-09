@@ -9,7 +9,7 @@ import api from '../../services/API';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 export default function SearchClient({ setShow }) {
-  const [form, handleForm, setForm] = useCustomForm();
+  const [form, handleForm] = useCustomForm();
   //const [refresh, setRefresh] = useState(false)
   const [clients, setClients] = useState(false);
   const [search, setSearch] = useState(false);

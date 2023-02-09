@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import SecondOptions from '../../../components/Order/secondOptions';
 import NewPaymentType from '../../../components/Payments/NewPaymentType';
 import SearchPayments from '../../../components/Payments/SearchPayments';
 

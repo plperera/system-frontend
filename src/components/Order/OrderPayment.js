@@ -40,13 +40,10 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
             value: Number(form['value'+e])*100
           });
       }
+      return e;
     });
-    console.log(paymentTypeArray);
-    
-    const totalPaymentType = paymentTypeArray.reduce((total, e) => total + Number(e.value) / 100, 0);
 
-    console.log(Number(total.toFixed(2)));
-    console.log(totalPaymentType);
+    const totalPaymentType = paymentTypeArray.reduce((total, e) => total + Number(e.value) / 100, 0);
 
     if (Number(Number(total).toFixed(2)) !== Number(totalPaymentType)) {
       return alert(`A soma total do valor de todas as formas de pagamento deve ser: R$${total.toFixed(2)} (atualmente a soma esta em: R$ ${totalPaymentType.toFixed(2)})`);
@@ -65,9 +62,7 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
     };
     if (body.itens.length > 2) {
       try {
-        console.log(body);
-        const result = await api.CreateOrder(body, userData.token);
-        console.log(result);
+        await api.CreateOrder(body, userData.token);
         setShow(<EndPointOrder setShow={setShow}/>);
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -152,35 +147,6 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
     </Container>
   );
 }
-const Input = styled.input`
-    
-  height: 4.5vh;
-  width: 100%;
-  text-decoration: none;
-  opacity: 1;
-
-  border: none;
-  border-bottom: 0.4vh #ababab solid;
-
-  font-size: 14px;
-  color: #171717;
-
-  padding-left: 1.6em;
-  padding-right: 0;
-  outline: none;
-  background: #f5f5f5;
-  border-radius: 5px;
-
-  margin-top: 2vh;
-  ::placeholder{
-    color: #9b9b9b;
-    opacity: 1;
-  }
-  :focus {
-    border-bottom: 0.4vh #02567c solid;
-  }
-`;
-
 const Container = styled.div`
   width:100%;
   display: flex;
