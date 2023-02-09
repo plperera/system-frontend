@@ -15,6 +15,7 @@ export default function NewOrder({ setShow, ClientData, AddressData, oldForm, ol
   const [itemArray, setItemArray] = useState( oldItemArray || [1]);
   const [products, setProducts] = useState(false);
   const { userData } = useContext(UserContext);
+
   function sendForm() {
     // eslint-disable-next-line array-callback-return
     const itens = itemArray.map( item => {
@@ -22,8 +23,8 @@ export default function NewOrder({ setShow, ClientData, AddressData, oldForm, ol
         return {
           COD: form['COD' + item],
           productId: form['id' + item],
-          itemAmount: (form['itemAmount' + item] * 100).toFixed(2),
-          itemPrice: (form['itemPrice' + item] * 100).toFixed(2)
+          itemAmount: (Number(form['itemAmount' + item]).toFixed(2) * 100),
+          itemPrice: (Number(form['itemPrice' + item]).toFixed(2) * 100)
         };
       }
     }).filter(e => e !== undefined);

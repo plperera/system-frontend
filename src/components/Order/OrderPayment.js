@@ -31,19 +31,19 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
   }, 0));
 
   async function sendForm() {
-    const newArray = [];
+    const paymentTypeArray = [];
     itemArray.map(e => {
       if (form['type'+e] !== undefined && form['value'+e] !== undefined) {
-        newArray.push(
+        paymentTypeArray.push(
           {
-            typeId: form['type'+e], 
-            value: form['value'+e]
+            paymentTypeId: Number(form['type'+e]), 
+            value: Number(form['value'+e])*100
           });
       }
     });
-    console.log(newArray);
+    console.log(paymentTypeArray);
     
-    const totalPaymentType = newArray.reduce((total, e) => total + Number(e.value), 0);
+    const totalPaymentType = paymentTypeArray.reduce((total, e) => total + Number(e.value) / 100, 0);
 
     console.log(Number(total.toFixed(2)));
     console.log(totalPaymentType);
@@ -51,28 +51,29 @@ export default function OrderPayment({ setShow, OrderData, ClientData, AddressDa
     if (Number(Number(total).toFixed(2)) !== Number(totalPaymentType)) {
       return alert(`A soma total do valor de todas as formas de pagamento deve ser: R$${total.toFixed(2)} (atualmente a soma esta em: R$ ${totalPaymentType.toFixed(2)})`);
     }
-    
-    /*
+
     const itens = [];
 
-    OrderData.itens.map(e => itens.push({ productId: e.productId, itemAmount: e.itemAmount * 100, itemPrice: e.itemPrice * 100 }));
+    OrderData.itens.map(e => itens.push({ productId: e.productId, itemAmount: e.itemAmount, itemPrice: e.itemPrice }));
 
     const body = {
       itens: itens,
       userId: OrderData.userId,
       clientId: OrderData.clientId,
-      addressId: OrderData.enrollmentId
+      addressId: OrderData.enrollmentId,
+      paymentType: paymentTypeArray
     };
     if (body.itens.length > 2) {
       try {
-        await api.CreateOrder(body, userData.token);
+        console.log(body);
+        const result = await api.CreateOrder(body, userData.token);
+        console.log(result);
         setShow(<EndPointOrder setShow={setShow}/>);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
       }
     }
-    */
   }
   
   function newItemLine() {
